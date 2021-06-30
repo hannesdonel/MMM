@@ -1,12 +1,12 @@
 {
-  "name": "movie_api",
+  "name": "more_movie_metadata",
   "version": "1.0.0",
-  "description": "",
+  "description": "A little tool to get information about movies.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "hannesdonel",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^7.29.0",
