@@ -1,10 +1,11 @@
 const http = require('http');
 const fs = require('fs');
-const url = require('url');
+
+const baseURL = 'http://127.0.0.1';
 
 http.createServer((request, response) => {
   const addr = request.url;
-  const q = url.parse(addr, true);
+  const q = new URL(addr, baseURL);
   let filePath = '';
 
   fs.appendFile('log.txt', `URL: ${addr}\nTimestamp: ${new Date()}\n\n`, (err) => {
