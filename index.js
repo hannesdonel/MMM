@@ -56,6 +56,8 @@ app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
 
+app.use('/public', express.static('public'));
+
 app.use((err, req, res, next) => {
   /* eslint-disable-next-line */
   console.error(err.stack);
