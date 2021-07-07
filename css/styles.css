@@ -1,0 +1,28 @@
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #adadad;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
