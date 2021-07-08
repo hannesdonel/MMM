@@ -76,7 +76,7 @@ app.use(express.json());
 app.use('/public', express.static('public'));
 
 // Routing for root
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`);
 });
 
