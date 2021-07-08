@@ -66,15 +66,23 @@ const users = [
   },
 ];
 
-// Print data about all requests.
+// Print data about all requests
 app.use(morgan('common'));
 
 // Parse request body
 app.use(express.json());
 
-// Routing for root.
+// Make /public directory available
+app.use('/public', express.static('public'));
+
+// Routing for root
 app.get('/', (req, res) => {
-  res.send('Welcome to yet another movie database. This one is a really special one as you may only find films that are awfully great. Sounds pretty nice, right? Well, to say the least, it is!');
+  res.sendFile(`${__dirname}/public/index.html`);
+});
+
+// Routing for documentation
+app.get('/documentation', (req, res) => {
+  res.sendFile(`${__dirname}/public/documentation.html`);
 });
 
 // Get all movies, movies by genre or by author
@@ -171,9 +179,6 @@ app.delete('/users/:id/favorites/:movieTitle', (req, res) => {
     res.status(400).send('Please specify a valid user and movie to be deleted from the user\'s favorites list');
   }
 });
-
-// Routing for /public directory including documentation.
-app.use('/public', express.static('public'));
 
 // Error handler
 app.use((err, req, res, next) => {
