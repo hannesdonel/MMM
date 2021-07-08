@@ -71,19 +71,19 @@
                 </tr>
                 <tr>
                     <td>
-                        A search query return data about a genre by name.
+                        A search query return data about a genre or author by name.
                     </td>
                     <td>
-                        /movies/?genre=thriller
+                        /movies/?genre=[genre] or /movies/?author=[author]
                     </td>
                     <td>
                         GET
                     </td>
                     <td>
-                        The search query should contain "genre".
+                        The search query should contain "genre" or "author".
                     </td>
                     <td>
-                        A JSON object holding all movies assigned to that specific genre.
+                        A JSON object holding all movies assigned to a specific genre or author.
                     </td>
                 </tr>
                 <tr>
@@ -183,7 +183,7 @@
                         Allow users to add a movie to their list of favorites.
                     </td>
                     <td>
-                        /movies/users/[User]/favorites
+                        /users/[User]/favorites
                     </td>
                     <td>
                         PUT
@@ -203,7 +203,7 @@
                         Allow users to remove a movie from their list of favorites.
                     </td>
                     <td>
-                        /movies/users/[User]/favorites
+                        /users/[User]/favorites
                     </td>
                     <td>
                         DELETE
