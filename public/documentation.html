@@ -61,11 +61,11 @@
                         A JSON object holding data about a single movie, containing description, genre, director and
                         image URL. Example: <br><br>
                         {<br>
-                        name: "movieName",<br>
-                        descripction: "This is the most funniest Mafia movie you'll ever get to see.",<br>
-                        genre: "Comedy",<br>
-                        director: "Al Capone",<br>
-                        imageUrl: "www.link.to/movie/coverartwork"<br>
+                        "name": "movieName",<br>
+                        "descripction": "This is the most funniest Mafia movie you'll ever get to see.",<br>
+                        "genre": "Comedy",<br>
+                        "director": "Al Capone",<br>
+                        "imageUrl": "www.link.to/movie/coverartwork"<br>
                         }
                     </td>
                 </tr>
@@ -103,10 +103,10 @@
                         A JSON object holding data about a director containing bio, birth year and death year. Example:
                         <br><br>
                         {<br>
-                        bio: "Al Capone was the most funniest movie director ever. Especially when it comes to Mafia
-                        movies.",<br>
-                        birth: "1927",<br>
-                        deathYear: "2027"<br>
+                        "bio": "Al Capone was the most funniest movie director ever. Especially when it comes to Mafia
+                        "movies": "",<br>
+                        "birth": "1927",<br>
+                        "deathYear": "2027"<br>
                         }
                     </td>
                 </tr>
@@ -124,10 +124,10 @@
                         A JSON object holding data containing first name, last name, age and mail adress. Example:
                         <br><br>
                         {<br>
-                        firstName: "Leonardo",<br>
-                        lastName: "DiCaprio",<br>
-                        age: "17",<br>
-                        mail: "leo@hotmail.com"<br>
+                        "firstName": "Leonardo",<br>
+                        "lastName": "DiCaprio",<br>
+                        "age": "17",<br>
+                        "mail": "leo@hotmail.com"<br>
                         }
                     </td>
                     <td>
@@ -136,46 +136,40 @@
                 </tr>
                 <tr>
                     <td>
-                        Allow users to update their username.
+                        Allow users to deregister by ID.
                     </td>
                     <td>
-                        /users/
-                    </td>
-                    <td>
-                        PUT
-                    </td>
-                    <td>
-                        A JSON object holding data conatining the new username. Example: <br><br>
-                        {<br>
-                        firstName: "New",<br>
-                        lastName: "Username"<br>
-                        }
-                    </td>
-                    <td>
-                        A verification message that a new username was succesfully assigned or failed.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Allow new users to deregister.
-                    </td>
-                    <td>
-                        /users
+                        /users/:id
                     </td>
                     <td>
                         DELETE
                     </td>
                     <td>
-                        A JSON object holding data containing first name, last name and mail adress. Example:
-                        <br><br>
-                        {<br>
-                        firstName: "Leonardo",<br>
-                        lastName: "DiCaprio",<br>
-                        mail: "leo@hotmail.com"<br>
-                        }
+                        The ID of the user to be deleted should be put after /users/ in the URL."
                     </td>
                     <td>
                         A verification message if the deregistration has been succesfull or not.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Allow users to update their user data by ID.
+                    </td>
+                    <td>
+                        /users/:id
+                    </td>
+                    <td>
+                        PUT
+                    </td>
+                    <td>
+                        A JSON object holding data conatining the user data to be changed. Example: <br><br>
+                        {<br>
+                        "firstName": "New",<br>
+                        "lastName": "Username"<br>
+                        }
+                    </td>
+                    <td>
+                        A verification message that a new username was succesfully assigned or failed.
                     </td>
                 </tr>
                 <tr>
