@@ -82,29 +82,29 @@ app.get('/', (req, res) => {
 
 // Routing for documentation
 app.get('/documentation', (req, res) => {
-  res.sendFile(`${__dirname}/public/documentation.html`);
+  res.status(200).sendFile(`${__dirname}/public/documentation.html`);
 });
 
 // Get all movies, movies by genre or by author
 app.get('/movies', (req, res) => {
   if ('genre' in req.query) {
-    res.json(topMovies.filter((movies) => movies.genre === req.query.genre));
+    res.status(200).json(topMovies.filter((movies) => movies.genre === req.query.genre));
   } else if ('author' in req.query) {
-    res.json(topMovies.filter((movies) => movies.author.includes(req.query.author)));
+    res.status(200).json(topMovies.filter((movies) => movies.author.includes(req.query.author)));
   } else {
-    res.json(topMovies);
+    res.status(200).json(topMovies);
   }
 });
 
 // Get movies by name
 app.get('/movies/:title', (req, res) => {
-  res.json(topMovies.find((movie) => movie.title === req.params.title));
+  res.status(200).json(topMovies.find((movie) => movie.title === req.params.title));
 });
 
 // Get directors by name
 app.get('/directors/:name', (req, res) => {
 /* eslint-disable-next-line */
-  res.json(DIRECTORS_DATABASE.find((director) => director.name === req.params.name));
+  res.status(200).json(DIRECTORS_DATABASE.find((director) => director.name === req.params.name));
 });
 
 // User registration
@@ -128,9 +128,9 @@ app.delete('/users/:id', (req, res) => {
 
   if (deregUser) {
     // Insert a function that deletes the specific user
-    res.status(201).send(`User with ID ${req.params.id} has been succesfully deleted.`);
+    res.status(200).send(`User with ID ${req.params.id} has been succesfully deleted.`);
   } else {
-    res.status(400).send(`There is no user with ID ${req.params.id}`);
+    res.status(404).send(`There is no user with ID ${req.params.id}`);
   }
 });
 
