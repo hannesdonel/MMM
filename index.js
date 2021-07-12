@@ -91,6 +91,10 @@ app.get('/movies', (req, res) => {
     res.status(200).json(topMovies.filter((movies) => movies.genre === req.query.genre));
   } else if ('author' in req.query) {
     res.status(200).json(topMovies.filter((movies) => movies.author.includes(req.query.author)));
+  } else if ('director' in req.query) {
+    res.status(200).json(topMovies.filter(
+      (movies) => movies.director.includes(req.query.director),
+    ));
   } else {
     res.status(200).json(topMovies);
   }
@@ -99,12 +103,6 @@ app.get('/movies', (req, res) => {
 // Get movies by name
 app.get('/movies/:title', (req, res) => {
   res.status(200).json(topMovies.find((movie) => movie.title === req.params.title));
-});
-
-// Get directors by name
-app.get('/movies/directors/:name', (req, res) => {
-/* eslint-disable-next-line */
-  res.status(200).json(DIRECTORS_DATABASE.find((director) => director.name === req.params.name));
 });
 
 // User registration

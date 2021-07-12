@@ -61,11 +61,22 @@
                         A JSON object holding data about a single movie, containing description, genre, director and
                         image URL. Example: <br><br>
                         {<br>
-                        "name": "movieName",<br>
-                        "descripction": "This is the most funniest Mafia movie you'll ever get to see.",<br>
-                        "genre": "Comedy",<br>
-                        "director": "Al Capone",<br>
+                        "_id" : ObjectId("IDNUMBER"),<br>
+                        "title": "movieName",<br>
+                        "descripction": "Lorem ipsum..."<br>
+                        "director": {<br>
+                        <span class="object-indentation">"name" : "Al Capone",</span><br>
+                        <span class="object-indentation">"bio" : "Biography of Al Capone.",</span><br>
+                        <span class="object-indentation">"birth_year" : "1976",</span><br>
+                        <span class="object-indentation">"death_year" : ""</span><br>
+                        },<br>
+                        "actors": [ "Actor 1", "Actor 2", "Actor 3" ],<br>
+                        "genre": {<br>
+                        <span class="object-indentation">"name": "Mafia",</span><br>
+                        <span class="object-indentation">"description": "Description of Mafia genre."</span><br>
+                        },<br>
                         "imageUrl": "www.link.to/movie/coverartwork"<br>
+                        "featured": false<br>
                         }
                     </td>
                 </tr>
@@ -80,7 +91,7 @@
                         GET
                     </td>
                     <td>
-                        The search query should contain "genre" or "author".
+                        The search query should contain "genre" or "actor".
                     </td>
                     <td>
                         A JSON object holding all movies assigned to a specific genre or author.
@@ -91,7 +102,7 @@
                         Return data about a director.
                     </td>
                     <td>
-                        /movies/directors/[Name]
+                        /movies/?director=[director]
                     </td>
                     <td>
                         GET
@@ -100,13 +111,15 @@
                         -
                     </td>
                     <td>
-                        A JSON object holding data about a director containing bio, birth year and death year. Example:
+                        A JSON object holding data about a director containing name, bio, birth year and death year.
+                        Example:
                         <br><br>
                         {<br>
+                        "name": "Al Capone",<br>
                         "bio": "Al Capone was the most funniest movie director ever. Especially when it comes to Mafia
-                        "movies": "",<br>
-                        "birth": "1927",<br>
-                        "deathYear": "2027"<br>
+                        movies.",<br>
+                        "birth_year": "1927",<br>
+                        "death_year": "2027"<br>
                         }
                     </td>
                 </tr>
@@ -124,10 +137,10 @@
                         A JSON object holding data containing first name, last name, age and mail adress. Example:
                         <br><br>
                         {<br>
-                        "firstName": "Leonardo",<br>
-                        "lastName": "DiCaprio",<br>
-                        "age": "17",<br>
-                        "mail": "leo@hotmail.com"<br>
+                        "user_name" : "helloworld",<br>
+                        "password" : "heythisistheworld",<br>
+                        "email" : "hello@world.com",<br>
+                        "birth_date" : new Date("1969-12-31")<br>
                         }
                     </td>
                     <td>
@@ -164,9 +177,8 @@
                     <td>
                         A JSON object holding data conatining the user data to be changed. Example: <br><br>
                         {<br>
-                        "firstName": "New",<br>
-                        "lastName": "Username"<br>
-                        }
+                        "user_name": "New",<br>
+                        " }
                     </td>
                     <td>
                         A verification message that a new username was succesfully assigned or failed.
@@ -185,7 +197,7 @@
                     <td>
                         A JSON object holding the name of the film to be added. Example: <br><br>
                         {<br>
-                        name: "movieName"<br>
+                        "title": "movieName"<br>
                         }
                     </td>
                     <td>
@@ -205,7 +217,7 @@
                     <td>
                         A JSON object holding the name of the film to be removed. Example: <br><br>
                         {<br>
-                        name: "movieName"<br>
+                        "title": "movieName"<br>
                         }
                     </td>
                     <td>
