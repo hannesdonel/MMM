@@ -102,7 +102,7 @@ app.get('/movies/:title', (req, res) => {
 });
 
 // Get directors by name
-app.get('/directors/:name', (req, res) => {
+app.get('/movies/directors/:name', (req, res) => {
 /* eslint-disable-next-line */
   res.status(200).json(DIRECTORS_DATABASE.find((director) => director.name === req.params.name));
 });
