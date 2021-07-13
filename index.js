@@ -1,7 +1,13 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
 const uuid = require('uuid');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/MMM', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
 
