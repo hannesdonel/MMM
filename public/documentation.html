@@ -41,25 +41,7 @@
                         -
                     </td>
                     <td>
-                        A JSON object holding all data about all movies.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Return data about a single movie by title.
-                    </td>
-                    <td>
-                        /movies/[Title]
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        A JSON object holding data about a single movie, containing description, genre, director and
-                        image URL. Example: <br><br>
+                        A JSON object holding all data about all movies: <br><br>
                         {<br>
                         "_id" : ObjectId("IDNUMBER"),<br>
                         "title": "movieName",<br>
@@ -82,27 +64,44 @@
                 </tr>
                 <tr>
                     <td>
-                        A search query returning data about a genre or actor by name.
+                        A search query returning movies by genre or/and actor.
                     </td>
                     <td>
-                        /movies/?genre=[genre] or /movies/?actor=[actor]
+                        /movies/?genre=[genreID] or/and /movies/?actor=[actor]
                     </td>
                     <td>
                         GET
                     </td>
                     <td>
-                        The search query should contain "genre" or "actor".
+                        The search query should contain "genreID" or/and "actor".
                     </td>
                     <td>
-                        A JSON object holding all movies assigned to a specific genre or author.
+                        A JSON object holding all movies assigned to a specific genre or/and actor.
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Return data about a director.
+                        Return data about a single movie by title.
                     </td>
                     <td>
-                        /movies/?director=[director]
+                        /movies/:itle
+                    </td>
+                    <td>
+                        GET
+                    </td>
+                    <td>
+                        Specify movie title in URL. The query is case sensitive!
+                    </td>
+                    <td>
+                        A JSON object holding data about a single movie by title.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Return data about all genres.
+                    </td>
+                    <td>
+                        /genres
                     </td>
                     <td>
                         GET
@@ -111,8 +110,47 @@
                         -
                     </td>
                     <td>
-                        A JSON object holding data about a director containing name, bio, birth year and death year.
-                        Example:
+                        A JSON object holding data about all genres:
+                        <br><br>
+                        {<br>
+                        "name": "Sci-Fi",<br>
+                        "description": "Lorem ipsum..."<br>
+                        }
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Return data about a genre by name.
+                    </td>
+                    <td>
+                        /genre/:name
+                    </td>
+                    <td>
+                        GET
+                    </td>
+                    <td>
+                        Specify genre name in URL. The query is case sensitive!
+                    </td>
+                    <td>
+                        A JSON object holding data about a genre by name.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Return data about all directors.
+                    </td>
+                    <td>
+                        /directors
+                    </td>
+                    <td>
+                        GET
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        A JSON object holding data about all directors:
                         <br><br>
                         {<br>
                         "name": "Al Capone",<br>
@@ -121,6 +159,23 @@
                         "birth_year": "1927",<br>
                         "death_year": "2027"<br>
                         }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Return data about a director by name.
+                    </td>
+                    <td>
+                        /directors/:name
+                    </td>
+                    <td>
+                        GET
+                    </td>
+                    <td>
+                        Specify director name in URL. The query is case sensitive!
+                    </td>
+                    <td>
+                        A JSON object holding data about a director.
                     </td>
                 </tr>
                 <tr>
@@ -137,14 +192,15 @@
                         A JSON object holding data containing first name, last name, age and mail adress. Example:
                         <br><br>
                         {<br>
-                        "user_name" : "helloworld",<br>
-                        "password" : "heythisistheworld",<br>
-                        "email" : "hello@world.com",<br>
-                        "birth_date" : new Date("1969-12-31")<br>
+                        "user_name" : STRING,<br>
+                        "password" : STRING,<br>
+                        "email" : STRING,<br>
+                        "birth_date" : DATE<br>
                         }
                     </td>
                     <td>
-                        A verification message if the registration has been succesfull or not.
+                        A verification message if the registration has been succesfull or not. In case of success you'll
+                        get the new user as a JSON object.
                     </td>
                 </tr>
                 <tr>
@@ -166,6 +222,23 @@
                 </tr>
                 <tr>
                     <td>
+                        Allow users to see their information by name.
+                    </td>
+                    <td>
+                        /users/:user_name
+                    </td>
+                    <td>
+                        GET
+                    </td>
+                    <td>
+                        The name of the user to be shown should be put after /users/ in the URL.
+                    </td>
+                    <td>
+                        A JSON object holding all data about a specific user.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         Allow users to update their user data by ID.
                     </td>
                     <td>
@@ -175,9 +248,12 @@
                         PUT
                     </td>
                     <td>
-                        A JSON object holding data conatining the user data to be changed. Example: <br><br>
+                        A JSON object holding new user data. Example: <br><br>
                         {<br>
-                        "user_name": "New",<br>
+                        "user_name" : STRING,<br>
+                        "password" : STRING,<br>
+                        "email" : STRING,<br>
+                        "birth_date" : DATE<br>
                         " }
                     </td>
                     <td>
@@ -189,16 +265,14 @@
                         Allow users to add a movie to their list of favorites.
                     </td>
                     <td>
-                        /users/:id/favorites
+                        /users/:user_name/favorites/:movieID
                     </td>
                     <td>
-                        PUT
+                        POST
                     </td>
                     <td>
-                        A JSON object holding the name of the film to be added. Example: <br><br>
-                        {<br>
-                        "title": "movieName"<br>
-                        }
+                        user_name indicates which user's favorites to be updated. :movieID provides ID of the movie to
+                        be added.
                     </td>
                     <td>
                         A message wether the film has been added succesfully to the favorites or not.
@@ -209,16 +283,14 @@
                         Allow users to remove a movie from their list of favorites.
                     </td>
                     <td>
-                        /users/:id/favorites
+                        /users/:user_name/favorites/:movieID
                     </td>
                     <td>
                         DELETE
                     </td>
                     <td>
-                        A JSON object holding the name of the film to be removed. Example: <br><br>
-                        {<br>
-                        "title": "movieName"<br>
-                        }
+                        user_name indicates which user's favorites to be updated. :movieID provides ID of the movie to
+                        be removed.
                     </td>
                     <td>
                         A message wether the film has been aremoved succesfully from the favorites or not.

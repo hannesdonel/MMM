@@ -1,188 +1,248 @@
 const express = require('express');
 const morgan = require('morgan');
-const uuid = require('uuid');
 const mongoose = require('mongoose');
-const Models = require('./models.js');
+const Models = require('./models');
 
 const Movies = Models.Movie;
+const Genres = Models.Genre;
+const Directors = Models.Director;
 const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/MMM', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
-
-const topMovies = [
-  {
-    title: 'Lord of the Rings',
-    author: 'J.R.R. Tolkien',
-    genre: 'adventure',
-  },
-  {
-    title: 'Hidden Figures',
-    author: 'Margot Lee Shetterly',
-    genre: 'biography',
-  },
-  {
-    title: 'Bohemian Rapsody',
-    author: ['Anthony McCarten', 'Peter Morgan'],
-    genre: 'biography',
-  },
-  {
-    title: 'Inception',
-    author: 'Christopher Nolan',
-    genre: 'adventure',
-  },
-  {
-    title: 'Adam\'s Apples',
-    author: 'Anders Thomas Jensen',
-    genre: 'comedy',
-  },
-  {
-    title: 'The Joker',
-    author: ['Todd Phillips', 'Scott Silver'],
-    genre: 'crime',
-  },
-  {
-    title: 'Gravity',
-    author: ['Alfonso Cuarón', 'Jonás Cuarón'],
-    genre: 'sci-fi',
-  },
-  {
-    title: 'The Prestige',
-    author: 'Christopher Priest',
-    genre: 'mystery',
-  },
-  {
-    title: 'Mickey Blue Eyes',
-    author: ['Adam Scheinman', 'Robert Kuhn'],
-    genre: 'comedy',
-  },
-  {
-    title: 'Toni Erdmann',
-    author: 'Maren Ade',
-    genre: 'drama',
-  },
-];
-
-const users = [
-  {
-    id: '1',
-    firstName: 'Hannes',
-    lastName: 'Donel',
-    mail: 'hannesdonel@mail.de',
-  },
-];
-
-// Print data about all requests
 app.use(morgan('common'));
-
-// Parse request body
 app.use(express.json());
 
-// Make /public directory available
-app.use('/public', express.static('public'));
+// GENERAL ROUTING SECTION
 
 // Routing for root
 app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`);
 });
 
+// Make /public directory available
+app.use('/public', express.static('public'));
+
 // Routing for documentation
 app.get('/documentation', (req, res) => {
   res.status(200).sendFile(`${__dirname}/public/documentation.html`);
 });
 
-// Get all movies, movies by genre or by author
+// MOVIES SECTION
+
+// Get all movies, movies by genreID or/and actor
 app.get('/movies', (req, res) => {
-  if ('genre' in req.query) {
-    res.status(200).json(topMovies.filter((movies) => movies.genre === req.query.genre));
-  } else if ('author' in req.query) {
-    res.status(200).json(topMovies.filter((movies) => movies.author.includes(req.query.author)));
-  } else if ('director' in req.query) {
-    res.status(200).json(topMovies.filter(
-      (movies) => movies.director.includes(req.query.director),
-    ));
+  const genreQuery = req.query.genre;
+  const actorQuery = req.query.actor;
+  if (genreQuery && actorQuery) {
+    Movies.find({ genre: genreQuery, actors: actorQuery }).populate('genre').populate('director').then((movies) => {
+      if (movies.length === 0) {
+        res.status(404).send(`Found no movie with genre ${genreQuery} starring ${actorQuery}.`);
+      } else {
+        res.status(201).json(movies);
+      }
+    })
+      .catch((error) => res.status(500).send(`Error: ${error}`));
+  } else if (actorQuery) {
+    Movies.find({ actors: actorQuery }).populate('genre').populate('directors').then((movies) => {
+      if (movies.length === 0) {
+        res.status(404).send(`Found no movie starring ${actorQuery}.`);
+      } else {
+        res.status(201).json(movies);
+      }
+    })
+      .catch((error) => res.status(500).send(`Error: ${error}`));
+  } else if (genreQuery) {
+    Movies.find({ genre: genreQuery }).populate('genre').populate('director').then((movies) => {
+      if (movies.length === 0) {
+        res.status(404).send(`Found no movie with genre ${genreQuery}.`);
+      } else {
+        res.status(201).json(movies);
+      }
+    })
+      .catch((error) => res.status(500).send(`Error: ${error}`));
   } else {
-    res.status(200).json(topMovies);
+    Movies.find({}).populate('genre').populate('director').then((movies) => {
+      if (movies.length === 0) {
+        res.status(500).send('Something went wrong, please try again later.');
+      } else {
+        res.status(201).json(movies);
+      }
+    })
+      .catch((error) => res.status(500).send(`Error: ${error}`));
   }
 });
 
-// Get movies by name
+// Get movie by title
 app.get('/movies/:title', (req, res) => {
-  res.status(200).json(topMovies.find((movie) => movie.title === req.params.title));
+  Movies.find({ title: req.params.title }).populate('genre').populate('director').then((movie) => {
+    if (movie.length === 0) {
+      res.status(404).send(`There is no movie entitled ${req.params.title}`);
+    } else {
+      res.status(201).json(movie);
+    }
+  })
+    .catch((error) => res.status(500).send(`Error: ${error}`));
 });
 
-// User registration
+// GENRES SECTION
+
+// Get all genres
+app.get('/genres', (req, res) => {
+  Genres.find({}).then((genres) => {
+    res.status(201).json(genres);
+  })
+    .catch((error) => res.status(500).send(`Error: ${error}`));
+});
+
+// Get genre by name
+app.get('/genres/:name', (req, res) => {
+  Genres.find({ name: req.params.name }).then((genre) => {
+    if (genre.length === 0) {
+      res.status(404).send(`Sorry, I couldn't find a genre named ${req.params.name}.`);
+    } else {
+      res.status(201).json(genre);
+    }
+  })
+    .catch((error) => res.status(500).send(`Error: ${error}`));
+});
+
+// DIRECTORS SECTION
+
+// Get all directors
+app.get('/directors', (req, res) => {
+  Directors.find({}).then((directors) => {
+    res.status(201).json(directors);
+  })
+    .catch((error) => res.status(500).send(`Error: ${error}`));
+});
+
+// Get director by name
+app.get('/directors/:name', (req, res) => {
+  Directors.find({ name: req.params.name }).then((director) => {
+    if (director.length === 0) {
+      res.status(404).send(`Sorry, I couldn't find a genre named ${req.params.name}.`);
+    } else {
+      res.status(201).json(director);
+    }
+  })
+    .catch((error) => res.status(500).send(`Error: ${error}`));
+});
+
+// USERS SECTION
+
+/* User registration
+
+We'll expect JSON in this format:
+  user_name: { type: String, required: true },
+  password: { type: String, required: true },
+  email: { type: String, required: true },
+  birth_date: Date,
+*/
+
 app.post('/users', (req, res) => {
-  const newUser = req.body;
-  const failed = 'You must specify at least your first name and mail adress.';
-
-  if (!newUser.firstName || !newUser.mail) {
-    res.status(400).send(failed);
-  } else {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    const success = `Thank you very much. You are now listed as: <br>${JSON.stringify(newUser)}`;
-    res.status(201).send(success);
-  }
+  Users.findOne({ user_name: req.body.user_name })
+    .then((user) => {
+      if (user && Object.keys(req.body).length > 0) {
+        res.status(400).send(`${req.body.user_name} already exists. Please choose another username.`);
+      } else {
+        Users
+          .create({
+            user_name: req.body.user_name,
+            password: req.body.password,
+            email: req.body.email,
+            birth_date: req.body.birth_date,
+          })
+          .then((newUser) => { res.status(201).send(`You are now registered as:<br>${JSON.stringify(newUser)}`); })
+          .catch((error) => res.status(500).send(`Error: ${error}`));
+      }
+    })
+    .catch((error) => res.status(500).send(`Error: ${error}`));
 });
 
-// User deregistration
-app.delete('/users/:id', (req, res) => {
-  const deregUser = users.find((user) => user.id === req.params.id);
-
-  if (deregUser) {
-    // Insert a function that deletes the specific user
-    res.status(200).send(`User with ID ${req.params.id} has been succesfully deleted.`);
-  } else {
-    res.status(404).send(`There is no user with ID ${req.params.id}`);
-  }
+// User deregistration by ID
+app.delete('/users/:_id', (req, res) => {
+  Users.findOneAndRemove({ _id: req.params._id })
+    .then((user) => {
+      if (!user) {
+        res.status(404).send(`There's no user with ID ${req.params._id}.`);
+      } else {
+        res.status(201).send(`User ${req.params._id} successfully deleted.`);
+      }
+    })
+    .catch((error) => res.status(500).send(`Error: ${error}`));
 });
 
-// Change user data (one at a time)
-app.put('/users/:id', (req, res) => {
-  const changeUser = users.find((user) => user.id === req.params.id);
+// Get information about a user by name.
+app.get('/users/:user_name', (req, res) => {
+  Users.findOne({ user_name: req.params.user_name })
+    .then((user) => {
+      if (!user) {
+        res.status(404).send(`User ${req.params.user_name} doesn't exist.`);
+      } else {
+        res.status(201).json(user);
+      }
+    })
+    .catch((error) => res.status(500).send(`Error: ${error}`));
+});
 
-  if (changeUser && req.body.firstName) {
-    changeUser.firstName = req.body.firstName;
-    res.status(201).send(`User with ID ${req.params.id} has been succesfully updated and is now:<br>${JSON.stringify(changeUser)}`);
-  } else if (changeUser && req.body.lastName) {
-    changeUser.lastName = req.body.lastName;
-    res.status(201).send(`User with ID ${req.params.id} has been succesfully updated and is now:<br>${JSON.stringify(changeUser)}`);
-  } else if (changeUser && req.body.mail) {
-    changeUser.mail = req.body.mail;
-    res.status(201).send(`User with ID ${req.params.id} has been succesfully updated and is now:<br>${JSON.stringify(changeUser)}`);
-  } else if (Object.keys(req.body).length === 0) {
-    res.status(400).send('Please specify what values to be changed.');
-  } else {
-    res.status(400).send(`There is no user with ID ${req.params.id}`);
-  }
+// Change user data (one at a time) by ID
+/* We’ll expect JSON in this format
+{
+  user_name: String,(required)
+  password: String,(required)
+  email: String,(required)
+  birth_date: Date
+} */
+app.put('/users/:_id', (req, res) => {
+  Users.findOneAndUpdate({ _id: req.params._id }, {
+    $set:
+    {
+      user_name: req.body.user_name,
+      password: req.body.password,
+      email: req.body.email,
+      birth_date: req.body.birth_date,
+    },
+  },
+  { new: true })
+    .then((updatedUser) => {
+      if (updatedUser) {
+        res.json(updatedUser);
+      } else {
+        res.status(500).send('Something went wrong, try again.');
+      }
+    }).catch((error) => res.status(500).send(`Error: ${error}`));
 });
 
 // Add movie to favorites
-app.post('/users/:id/favorites/:movieTitle', (req, res) => {
-  const validUser = users.find((user) => user.id === req.params.id);
-  const validMovie = topMovies.find((movie) => movie.title === req.params.movieTitle);
-
-  if (validUser && validMovie) {
-    // Insert a function that post a movie to the user's favorites (which sould be an object)
-    res.status(201).send('Movie successfully added to your favorites list.');
-  } else {
-    res.status(400).send('Please specify a valid user and movie to be added to the user\'s favorites list');
-  }
+app.post('/users/:user_name/favorites/:movieID', (req, res) => {
+  Users.findOneAndUpdate({ user_name: req.params.user_name }, {
+    $addToSet: { favorites: req.params.movieID },
+  },
+  { new: true },
+  (err) => {
+    if (err) {
+      res.status(404).send(`Movie with ID ${req.params.movieID} doesn't exist.`);
+    } else {
+      res.status(201).send(`Movie ${req.params.movieID} has been successfully added to your favorites.`);
+    }
+  });
 });
 
-// Remove movie to favorites
-app.delete('/users/:id/favorites/:movieTitle', (req, res) => {
-  const validUser = users.find((user) => user.id === req.params.id);
-  const validMovie = topMovies.find((movie) => movie.title === req.params.movieTitle);
-
-  if (validUser && validMovie) {
-    // Insert a function that post a movie to the user's favorites (which sould be an object)
-    res.status(201).send('Movie successfully deleted from your favorites list.');
-  } else {
-    res.status(400).send('Please specify a valid user and movie to be deleted from the user\'s favorites list');
-  }
+// Remove movie from favorites
+app.delete('/users/:user_name/favorites/:movieID', (req, res) => {
+  Users.findOneAndUpdate({ user_name: req.params.user_name }, {
+    $pull: { favorites: req.params.movieID },
+  },
+  { new: true },
+  (err) => {
+    if (err) {
+      res.status(404).send(`Movie with ID ${req.params.movieID} doesn't exist.`);
+    } else {
+      res.status(201).send(`Movie ${req.params.movieID} has been successfully removed from your favorites.`);
+    }
+  });
 });
 
 // Error handler
