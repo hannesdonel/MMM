@@ -1,18 +1,22 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const Models = require('./models');
-
-const Movies = Models.Movie;
-const Genres = Models.Genre;
-const Directors = Models.Director;
-const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/MMM', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
 app.use(morgan('common'));
 app.use(express.json());
+
+const passport = require('passport');
+require('./passport');
+const auth = require('./auth')(app);
+const Models = require('./models');
+
+const Movies = Models.Movie;
+const Genres = Models.Genre;
+const Directors = Models.Director;
+const Users = Models.User;
 
 // GENERAL ROUTING SECTION
 
