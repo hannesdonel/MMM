@@ -12,14 +12,29 @@ app.use(express.json());
 
 const passport = require('passport');
 require('./passport');
+const Models = require('./models');
 /* eslint-disable-next-line */
 const auth = require('./auth')(app);
-const Models = require('./models');
 
 const Movies = Models.Movie;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 const Users = Models.User;
+
+// Trusted domain
+const allowedOrigins = ['http://localhost:8080'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    } if (allowedOrigins.indexOf(origin) === -1) {
+      const message = `The CORS policy for this application doesn’t allow access from origin ${origin}`;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  },
+}));
 
 // GENERAL ROUTING SECTION
 
@@ -161,17 +176,17 @@ We'll expect JSON in this format:
   email: { type: String, required: true },
   birth_date: Date,
 */
-
 app.post('/users', async (req, res) => {
   try {
     const user = await Users.findOne({ user_name: req.body.user_name });
     if (user && Object.keys(req.body).length > 0) {
       res.status(400).send(`${req.body.user_name} already exists. Please choose another username.`);
     } else {
+      const hashedPassword = Users.hashPassword(req.body.password);
       Users
         .create({
           user_name: req.body.user_name,
-          password: req.body.password,
+          password: hashedPassword,
           email: req.body.email,
           birth_date: req.body.birth_date,
         })
