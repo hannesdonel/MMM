@@ -10,6 +10,7 @@ app.use(express.json());
 
 const passport = require('passport');
 require('./passport');
+/* eslint-disable-next-line */
 const auth = require('./auth')(app);
 const Models = require('./models');
 
@@ -36,102 +37,116 @@ app.get('/documentation', (req, res) => {
 // MOVIES SECTION
 
 // Get all movies, movies by genreID or/and actor
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const genreQuery = req.query.genre;
   const actorQuery = req.query.actor;
   if (genreQuery && actorQuery) {
-    Movies.find({ genre: genreQuery, actors: actorQuery }).populate('genre').populate('director').then((movies) => {
+    try {
+      const movies = await Movies.find({ genre: genreQuery, actors: actorQuery }).populate('genre').populate('director');
       if (movies.length === 0) {
         res.status(404).send(`Found no movie with genre ${genreQuery} starring ${actorQuery}.`);
       } else {
         res.status(200).json(movies);
       }
-    })
-      .catch((error) => res.status(500).send(`Error: ${error}`));
+    } catch (error) {
+      res.status(500).send(`Error: ${error}`);
+    }
   } else if (actorQuery) {
-    Movies.find({ actors: actorQuery }).populate('genre').populate('directors').then((movies) => {
+    try {
+      const movies = await Movies.find({ actors: actorQuery }).populate('genre').populate('directors');
       if (movies.length === 0) {
         res.status(404).send(`Found no movie starring ${actorQuery}.`);
       } else {
         res.status(201).json(movies);
       }
-    })
-      .catch((error) => res.status(500).send(`Error: ${error}`));
+    } catch (error) {
+      res.status(500).send(`Error: ${error}`);
+    }
   } else if (genreQuery) {
-    Movies.find({ genre: genreQuery }).populate('genre').populate('director').then((movies) => {
+    try {
+      const movies = await Movies.find({ genre: genreQuery }).populate('genre').populate('director');
       if (movies.length === 0) {
         res.status(404).send(`Found no movie with genre ${genreQuery}.`);
       } else {
         res.status(200).json(movies);
       }
-    })
-      .catch((error) => res.status(500).send(`Error: ${error}`));
+    } catch (error) {
+      res.status(500).send(`Error: ${error}`);
+    }
   } else {
-    Movies.find({}).populate('genre').populate('director').then((movies) => {
-      if (movies.length === 0) {
-        res.status(500).send('Something went wrong, please try again later.');
-      } else {
-        res.status(200).json(movies);
-      }
-    })
-      .catch((error) => res.status(500).send(`Error: ${error}`));
+    try {
+      const movies = await Movies.find({}).populate('genre').populate('director');
+      res.status(200).json(movies);
+    } catch (error) {
+      res.status(500).send(`Error: ${error}`);
+    }
   }
 });
 
 // Get movie by title
-app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.find({ title: req.params.title }).populate('genre').populate('director').then((movie) => {
+app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const movie = await Movies.find({ title: req.params.title }).populate('genre').populate('director');
     if (movie.length === 0) {
       res.status(404).send(`There is no movie entitled ${req.params.title}`);
     } else {
       res.status(200).json(movie);
     }
-  })
-    .catch((error) => res.status(500).send(`Error: ${error}`));
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // GENRES SECTION
 
 // Get all genres
-app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Genres.find({}).then((genres) => {
+app.get('/genres', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const genres = await Genres.find({});
     res.status(200).json(genres);
-  })
-    .catch((error) => res.status(500).send(`Error: ${error}`));
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // Get genre by name
-app.get('/genres/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Genres.find({ name: req.params.name }).then((genre) => {
+app.get('/genres/:name', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const genre = await Genres.find({ name: req.params.name });
     if (genre.length === 0) {
       res.status(404).send(`Sorry, I couldn't find a genre named ${req.params.name}.`);
     } else {
       res.status(200).json(genre);
     }
-  })
-    .catch((error) => res.status(500).send(`Error: ${error}`));
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // DIRECTORS SECTION
 
 // Get all directors
-app.get('/directors', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.find({}).then((directors) => {
+app.get('/directors', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const directors = await Directors.find({});
     res.status(200).json(directors);
-  })
-    .catch((error) => res.status(500).send(`Error: ${error}`));
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // Get director by name
-app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.find({ name: req.params.name }).then((director) => {
+app.get('/directors/:name', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const director = await Directors.find({ name: req.params.name });
     if (director.length === 0) {
       res.status(404).send(`Sorry, I couldn't find a genre named ${req.params.name}.`);
     } else {
       res.status(200).json(director);
     }
-  })
-    .catch((error) => res.status(500).send(`Error: ${error}`));
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // USERS SECTION
@@ -145,50 +160,53 @@ We'll expect JSON in this format:
   birth_date: Date,
 */
 
-app.post('/users', (req, res) => {
-  Users.findOne({ user_name: req.body.user_name })
-    .then((user) => {
-      if (user && Object.keys(req.body).length > 0) {
-        res.status(400).send(`${req.body.user_name} already exists. Please choose another username.`);
-      } else {
-        Users
-          .create({
-            user_name: req.body.user_name,
-            password: req.body.password,
-            email: req.body.email,
-            birth_date: req.body.birth_date,
-          })
-          .then((newUser) => { res.status(201).send(`You are now registered as:<br>${JSON.stringify(newUser)}`); })
-          .catch((error) => res.status(500).send(`Error: ${error}`));
-      }
-    })
-    .catch((error) => res.status(500).send(`Error: ${error}`));
+app.post('/users', async (req, res) => {
+  try {
+    const user = await Users.findOne({ user_name: req.body.user_name });
+    if (user && Object.keys(req.body).length > 0) {
+      res.status(400).send(`${req.body.user_name} already exists. Please choose another username.`);
+    } else {
+      Users
+        .create({
+          user_name: req.body.user_name,
+          password: req.body.password,
+          email: req.body.email,
+          birth_date: req.body.birth_date,
+        })
+        .then((newUser) => { res.status(201).send(`You are now registered as:<br>${JSON.stringify(newUser)}`); })
+        .catch((error) => res.status(500).send(`Error: ${error}`));
+    }
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // User deregistration by ID
-app.delete('/users/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndRemove({ _id: req.params._id })
-    .then((user) => {
-      if (!user) {
-        res.status(404).send(`There's no user with ID ${req.params._id}.`);
-      } else {
-        res.status(201).send(`User ${req.params._id} successfully deleted.`);
-      }
-    })
-    .catch((error) => res.status(500).send(`Error: ${error}`));
+app.delete('/users/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const user = await Users.findOneAndRemove({ _id: req.params._id });
+    if (!user) {
+      res.status(404).send(`There's no user with ID ${req.params._id}.`);
+    } else {
+      res.status(201).send(`User ${req.params._id} successfully deleted.`);
+    }
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // Get information about a user by name.
-app.get('/users/:user_name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ user_name: req.params.user_name })
-    .then((user) => {
-      if (!user) {
-        res.status(404).send(`User ${req.params.user_name} doesn't exist.`);
-      } else {
-        res.status(200).json(user);
-      }
-    })
-    .catch((error) => res.status(500).send(`Error: ${error}`));
+app.get('/users/:user_name', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const user = await Users.findOne({ user_name: req.params.user_name });
+    if (!user) {
+      res.status(404).send(`User ${req.params.user_name} doesn't exist.`);
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // Change user data (one at a time) by ID
@@ -199,24 +217,26 @@ app.get('/users/:user_name', passport.authenticate('jwt', { session: false }), (
   email: String,(required)
   birth_date: Date
 } */
-app.put('/users/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate({ _id: req.params._id }, {
-    $set:
-    {
-      user_name: req.body.user_name,
-      password: req.body.password,
-      email: req.body.email,
-      birth_date: req.body.birth_date,
+app.put('/users/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const updatedUser = await Users.findOneAndUpdate({ _id: req.params._id }, {
+      $set:
+      {
+        user_name: req.body.user_name,
+        password: req.body.password,
+        email: req.body.email,
+        birth_date: req.body.birth_date,
+      },
     },
-  },
-  { new: true })
-    .then((updatedUser) => {
-      if (updatedUser) {
-        res.status(201).json(updatedUser);
-      } else {
-        res.status(500).send('Something went wrong, try again.');
-      }
-    }).catch((error) => res.status(500).send(`Error: ${error}`));
+    { new: true });
+    if (updatedUser) {
+      res.status(201).json(updatedUser);
+    } else {
+      res.status(500).send('Something went wrong, try again.');
+    }
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
 });
 
 // Add movie to favorites
