@@ -1,18 +1,20 @@
 const express = require('express');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
-const cors = require('cors');
-
-mongoose.connect('mongodb://localhost:27017/MMM', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
+app.use(express.json());
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/MMM', { useNewUrlParser: true, useUnifiedTopology: true });
+const cors = require('cors');
+
 app.use(cors());
 app.use(morgan('common'));
-app.use(express.json());
 
+const { check, validationResult } = require('express-validator');
 const passport = require('passport');
-require('./passport');
 const Models = require('./models');
+require('./passport');
 /* eslint-disable-next-line */
 const auth = require('./auth')(app);
 
@@ -176,7 +178,22 @@ We'll expect JSON in this format:
   email: { type: String, required: true },
   birth_date: Date,
 */
-app.post('/users', async (req, res) => {
+app.post('/users', [
+  check('user_name', 'Username with at least three characters is required.')
+    .isLength({ min: 3 }),
+  check('user_name', 'Only alphanumeric caracters allowed.')
+    .isAlphanumeric(),
+  check('password', 'Password musn\'t be empty!')
+    .not().isEmpty(),
+  check('email', 'Please enter a valid mail adress.')
+    .isEmail(),
+  check('birth_date', 'Please enter a birthday in this format: YYYY-DD-MM')
+    .isDate(),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.array());
+  }
   try {
     const user = await Users.findOne({ user_name: req.body.user_name });
     if (user && Object.keys(req.body).length > 0) {
@@ -234,7 +251,22 @@ app.get('/users/:user_name', passport.authenticate('jwt', { session: false }), a
   email: String,(required)
   birth_date: Date
 } */
-app.put('/users/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:_id', [
+  check('user_name', 'Username with at least three characters is required.')
+    .isLength({ min: 3 }),
+  check('user_name', 'Only alphanumeric caracters allowed.')
+    .isAlphanumeric(),
+  check('password', 'Password musn\'t be empty!')
+    .not().isEmpty(),
+  check('email', 'Please enter a valid mail adress.')
+    .isEmail(),
+  check('birth_date', 'Please enter a birthday in this format: YYYY-DD-MM')
+    .isDate(),
+], passport.authenticate('jwt', { session: false }), async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.array());
+  }
   try {
     const updatedUser = await Users.findOneAndUpdate({ _id: req.params._id }, {
       $set:
