@@ -1,10 +1,12 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 mongoose.connect('mongodb://localhost:27017/MMM', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
+app.use(cors());
 app.use(morgan('common'));
 app.use(express.json());
 
