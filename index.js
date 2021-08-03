@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
@@ -325,7 +326,8 @@ app.use((err, req, res, next) => {
   res.status(500).send('Ups, something went wrong. Please try again.');
 });
 
-app.listen(8080, () => {
+const port = process.env.PORT;
+app.listen(port || 8080, () => {
   /* eslint-disable-next-line */
-  console.log('Server is listening on port 8080.');
+  console.log(`Server is listening on port ${port || 8080}.`);
 });
