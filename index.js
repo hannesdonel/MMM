@@ -10,7 +10,6 @@ const database = process.env.CONNECTION_URI || 'mongodb://localhost:27017/MMM';
 mongoose.connect(database, { useNewUrlParser: true, useUnifiedTopology: true });
 const cors = require('cors');
 
-app.use(cors());
 app.use(morgan('common'));
 
 const { check, validationResult } = require('express-validator');
@@ -26,19 +25,26 @@ const Directors = Models.Director;
 const Users = Models.User;
 
 // Trusted domain
-const allowedOrigins = ['http://localhost:8080'];
+// Allow all domains
+app.use(cors());
+
+// Limit allowed domains
+/*
+const allowedOrigins = ['http://localhost:8080', 'https://more-movie-metadata.herokuapp.com/'];
 
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) {
       return callback(null, true);
     } if (allowedOrigins.indexOf(origin) === -1) {
-      const message = `The CORS policy for this application doesn’t allow access from origin ${origin}`;
+      const message =
+        `The CORS policy for this application doesn’t allow access from origin ${origin}`;
       return callback(new Error(message), false);
     }
     return callback(null, true);
   },
 }));
+*/
 
 // GENERAL ROUTING SECTION
 
