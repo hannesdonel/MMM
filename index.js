@@ -326,8 +326,8 @@ app.use((err, req, res, next) => {
   res.status(500).send('Ups, something went wrong. Please try again.');
 });
 
-const port = process.env.PORT;
-app.listen(port || 8080, () => {
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
   /* eslint-disable-next-line */
   console.log(`Server is listening on port ${port || 8080}.`);
 });
