@@ -6,7 +6,8 @@ app.use(express.json());
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/MMM', { useNewUrlParser: true, useUnifiedTopology: true });
+const database = process.env.CONNECTION_URI || 'mongodb://localhost:27017/MMM';
+mongoose.connect(database, { useNewUrlParser: true, useUnifiedTopology: true });
 const cors = require('cors');
 
 app.use(cors());
