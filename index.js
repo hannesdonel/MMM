@@ -25,7 +25,7 @@ const Directors = Models.Director;
 const Users = Models.User;
 
 // Trusted domain
-const allowedOrigins = ['http://localhost:8080'];
+const allowedOrigins = ['http://localhost:8080', 'https://herokuapp.com'];
 
 app.use(cors({
   origin: (origin, callback) => {
