@@ -18,17 +18,17 @@ exports.post_new_user = async (req, res) => {
     return res.status(422).json(errors.array());
   }
   try {
-    const user = await Users.findOne({ user_name: xss(req.body.user_name) });
+    const user = await Users.findOne({ user_name: req.body.user_name });
     if (user && Object.keys(req.body).length > 0) {
       res.status(400).send(`${req.body.user_name} already exists. Please choose another username.`);
     } else {
-      const hashedPassword = Users.hashPassword(xss(req.body.password));
+      const hashedPassword = Users.hashPassword(req.body.password);
       Users
         .create({
-          user_name: xss(req.body.user_name),
+          user_name: req.body.user_name,
           password: hashedPassword,
-          email: xss(req.body.email),
-          birth_date: xss(req.body.birth_date),
+          email: req.body.email,
+          birth_date: req.body.birth_date,
         })
         .then((newUser) => { res.status(201).send(`You are now registered as:<br>${JSON.stringify(Users.serialize(newUser))}`); })
         .catch((error) => res.status(500).send(`Error: ${error}`));
@@ -41,7 +41,7 @@ exports.post_new_user = async (req, res) => {
 // User deregistration by ID
 exports.delete_user = async (req, res) => {
   try {
-    const user = await Users.findOneAndRemove({ _id: xss(req.params._id) });
+    const user = await Users.findOneAndRemove({ _id: req.params._id });
     if (!user) {
       res.status(404).send(`There's no user with ID ${xss(req.params._id)}.`);
     } else {
@@ -55,7 +55,7 @@ exports.delete_user = async (req, res) => {
 // Get information about a user by name.
 exports.get_user_information = async (req, res) => {
   try {
-    const user = await Users.findOne({ user_name: xss(req.params.user_name) });
+    const user = await Users.findOne({ user_name: req.params.user_name });
     if (!user) {
       res.status(404).send(`User ${xss(req.params.user_name)} doesn't exist.`);
     } else {
@@ -83,20 +83,20 @@ exports.put_user_information = async (req, res) => {
     const updateObject = {};
 
     if (req.body.user_name) {
-      updateObject.user_name = xss(req.body.user_name);
+      updateObject.user_name = req.body.user_name;
     }
     if (req.body.password) {
       const hashedPassword = Users.hashPassword(req.body.password);
       updateObject.user_name = hashedPassword;
     }
     if (req.body.email) {
-      updateObject.email = xss(req.body.email);
+      updateObject.email = req.body.email;
     }
     if (req.body.birth_date) {
-      updateObject.birth_date = xss(req.body.birth_date);
+      updateObject.birth_date = req.body.birth_date;
     }
 
-    const updatedUser = await Users.findOneAndUpdate({ _id: xss(req.params._id) }, {
+    const updatedUser = await Users.findOneAndUpdate({ _id: req.params._id }, {
       $set: updateObject,
     },
     { new: true });
@@ -112,8 +112,8 @@ exports.put_user_information = async (req, res) => {
 
 // Add movie to favorites
 exports.post_favorites = (req, res) => {
-  Users.findOneAndUpdate({ user_name: xss(req.params.user_name) }, {
-    $addToSet: { favorites: xss(req.params.movieID) },
+  Users.findOneAndUpdate({ user_name: req.params.user_name }, {
+    $addToSet: { favorites: req.params.movieID },
   },
   { new: true },
   (err) => {
@@ -127,8 +127,8 @@ exports.post_favorites = (req, res) => {
 
 // Remove movie from favorites
 exports.delete_favorites = (req, res) => {
-  Users.findOneAndUpdate({ user_name: xss(req.params.user_name) }, {
-    $pull: { favorites: xss(req.params.movieID) },
+  Users.findOneAndUpdate({ user_name: req.params.user_name }, {
+    $pull: { favorites: req.params.movieID },
   },
   { new: true },
   (err) => {

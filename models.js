@@ -35,11 +35,11 @@ const userSchema = mongoose.Schema({
 userSchema.statics.hashPassword = (password) => bcrypt.hashSync(password, 10);
 
 userSchema.statics.serialize = (user) => ({
-  _id: xss(user._id),
+  _id: user._id,
   user_name: xss(user.user_name),
   email: xss(user.email),
-  birth_date: xss(user.birth_date),
-  favorites: xss(user.favorites),
+  birth_date: user.birth_date,
+  favorites: user.favorites,
 });
 
 /* eslint-disable-next-line */

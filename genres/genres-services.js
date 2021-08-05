@@ -14,7 +14,7 @@ exports.get_all_genres = async (req, res) => {
 
 exports.get_genre_by_name = async (req, res) => {
   try {
-    const genre = await Genres.find({ name: xss(req.params.name) });
+    const genre = await Genres.find({ name: req.params.name });
     if (genre.length === 0) {
       res.status(404).send(`Sorry, I couldn't find a genre named ${xss(req.params.name)}.`);
     } else {

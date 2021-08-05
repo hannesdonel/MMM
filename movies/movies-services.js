@@ -6,7 +6,7 @@ const { Movies } = Models;
 exports.get_all_movies = async (req, res) => {
   // Get movie by title
   try {
-    const movie = await Movies.find({ title: xss(req.params.title) }).populate('genre', 'name').populate('director', 'name');
+    const movie = await Movies.find({ title: req.params.title }).populate('genre', 'name').populate('director', 'name');
     if (movie.length === 0) {
       res.status(404).send(`There is no movie entitled ${xss(req.params.title)}`);
     } else {

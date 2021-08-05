@@ -14,7 +14,7 @@ exports.get_all_directors = async (req, res) => {
 
 exports.get_directors_by_name = async (req, res) => {
   try {
-    const director = await Directors.find({ name: xss(req.params.name) });
+    const director = await Directors.find({ name: req.params.name });
     if (director.length === 0) {
       res.status(404).send(`Sorry, I couldn't find a genre named ${xss(req.params.name)}.`);
     } else {
