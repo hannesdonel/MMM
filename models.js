@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const xss = require('xss');
 
 const movieSchema = mongoose.Schema({
   title: { type: String, required: true },
@@ -33,17 +34,25 @@ const userSchema = mongoose.Schema({
 
 userSchema.statics.hashPassword = (password) => bcrypt.hashSync(password, 10);
 
+userSchema.statics.serialize = (user) => ({
+  _id: xss(user._id),
+  user_name: xss(user.user_name),
+  email: xss(user.email),
+  birth_date: xss(user.birth_date),
+  favorites: xss(user.favorites),
+});
+
 /* eslint-disable-next-line */
 userSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-const Movie = mongoose.model('Movie', movieSchema);
-const Genre = mongoose.model('Genre', genreSchema);
-const Director = mongoose.model('Director', directorSchema);
-const User = mongoose.model('User', userSchema);
+const Movies = mongoose.model('Movie', movieSchema);
+const Genres = mongoose.model('Genre', genreSchema);
+const Directors = mongoose.model('Director', directorSchema);
+const Users = mongoose.model('User', userSchema);
 
-module.exports.Movie = Movie;
-module.exports.Genre = Genre;
-module.exports.Director = Director;
-module.exports.User = User;
+module.exports.Movies = Movies;
+module.exports.Genres = Genres;
+module.exports.Directors = Directors;
+module.exports.Users = Users;

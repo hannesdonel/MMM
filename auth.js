@@ -2,7 +2,9 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 require('./passport');
 
-const { JWT_SECRET } = process.env;
+const config = require('./config');
+
+const { JWT_SECRET } = config;
 
 const generateJWTToken = (user) => jwt.sign(user, JWT_SECRET, {
   subject: user.user_name,
