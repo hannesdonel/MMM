@@ -11,13 +11,10 @@ const cors = require('cors');
 
 app.use(morgan('common'));
 
-const { check, validationResult } = require('express-validator');
-const passport = require('passport');
 const config = require('./config');
 
 const { CONNECTION_URI } = config;
 mongoose.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-const Models = require('./models');
 const MoviesRouter = require('./movies/movies-router');
 const GenresRouter = require('./genres/genres-router');
 const DirectorsRouter = require('./directors/directors-router');

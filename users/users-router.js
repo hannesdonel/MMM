@@ -1,11 +1,12 @@
 const express = require('express');
-const { check } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const passport = require('passport');
 
 const UsersRouter = express.Router();
 const UsersServices = require('./users-services');
 
 UsersRouter
+  // User registration
   .post('/', [
     check('user_name', 'Username with at least three characters is required.')
       .isLength({ min: 3 }),
@@ -17,22 +18,103 @@ UsersRouter
       .isEmail(),
     check('birth_date', 'Please enter a birthday in this format: YYYY-DD-MM')
       .isDate(),
-  ], UsersServices.post_new_user)
-  .delete('/:_id', passport.authenticate('jwt', { session: false }), UsersServices.delete_user)
-  .get('/:user_name', passport.authenticate('jwt', { session: false }), UsersServices.get_user_information)
-  .put('/:_id', [
-    check('user_name', 'Username with at least three characters is required.')
-      .isLength({ min: 3 }),
-    check('user_name', 'Only alphanumeric caracters allowed.')
-      .isAlphanumeric(),
-    check('password', 'Password musn\'t be empty!')
-      .not().isEmpty(),
-    check('email', 'Please enter a valid mail adress.')
-      .isEmail(),
-    check('birth_date', 'Please enter a birthday in this format: YYYY-DD-MM')
-      .isDate(),
-  ], passport.authenticate('jwt', { session: false }), UsersServices.put_user_information)
-  .post('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), UsersServices.post_favorites)
-  .delete('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), UsersServices.delete_favorites);
+  ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).send(errors);
+    }
+    const result = await UsersServices.post_new_user(req);
+    try {
+      if (!result.success && result.statusCode === 404) {
+        res.status(404).send(result.message);
+      } else if (!result.success && result.statusCode === 500) {
+        res.status(500).send(result.error);
+      } else {
+        res.status(201).send(result.message);
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })
+  // User deregistration by ID
+  .delete('/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const result = await UsersServices.delete_user(req);
+    try {
+      if (!result.success && result.statusCode === 404) {
+        res.status(404).send(result.message);
+      } else if (!result.success && result.statusCode === 500) {
+        res.status(500).send(result.error);
+      } else {
+        res.status(201).send(result.message);
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })
+  // Get information about a user by name.
+  .get('/:user_name', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const result = await UsersServices.get_user_information(req);
+    try {
+      if (!result.success && result.statusCode === 404) {
+        res.status(404).send(result.message);
+      } else if (!result.success && result.statusCode === 500) {
+        res.status(500).send(result.error);
+      } else {
+        res.status(200).send(result.user);
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })
+  // Change user data (one at a time) by ID
+  /* We’ll expect JSON in this format
+  {
+    user_name: String,(required)
+    password: String,(required)
+    email: String,(required)
+    birth_date: Date
+  } */
+  .put('/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const result = await UsersServices.put_user_information(req);
+    try {
+      if (!result.success && result.statusCode === 404) {
+        res.status(404).send(result.message);
+      } else if (!result.success && result.statusCode === 500) {
+        res.status(500).send(result.error);
+      } else {
+        res.status(201).send(result.message);
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })
+  // Add movie to favorites
+  .post('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const result = UsersServices.post_favorites(req);
+    console.log(result);
+    try {
+      if (!result.success && result.statusCode === 404) {
+        res.status(404).send(result.message);
+      } else if (!result.success && result.statusCode === 500) {
+        res.status(500).send(result.error);
+      }
+      res.status(201).send(result.message);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })
+  // Remove movie from favorites
+  .delete('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const result = await UsersServices.delete_favorites(req);
+    try {
+      if (!result.success && result.statusCode === 404) {
+        res.status(404).send(result.message);
+      } else {
+        res.status(201).send(result.message);
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
 
 module.exports = UsersRouter;

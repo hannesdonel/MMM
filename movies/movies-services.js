@@ -3,66 +3,64 @@ const Models = require('../models');
 
 const { Movies } = Models;
 
-exports.get_all_movies = async (req, res) => {
+const MoviesServices = {
   // Get movie by title
-  try {
-    const movie = await Movies.find({ title: req.params.title }).populate('genre', 'name').populate('director', 'name');
-    if (movie.length === 0) {
-      res.status(404).send(`There is no movie entitled ${xss(req.params.title)}`);
-    } else {
-      res.status(200).json(movie);
+  get_movie_by_title: async (req) => {
+    try {
+      const movie = await Movies.find({ title: req.params.title }).populate('genre', 'name').populate('director', 'name');
+      if (movie.length === 0) {
+        return { success: false, statusCode: 404, message: `There is no movie entitled ${xss(req.params.title)}` };
+      } return { success: true, movie };
+    } catch (error) {
+      return { success: false, statusCode: 500, error };
     }
-  } catch (error) {
-    res.status(500).send(`Error: ${error}`);
-  }
+  },
+  get_movies_by_genre_actor: async (req) => {
+  // Get movies by genre ID & actor
+    const genreQuery = xss(req.query.genre);
+    const actorQuery = xss(req.query.actor);
+    if (genreQuery && actorQuery) {
+      try {
+        const movies = await Movies.find({ genre: genreQuery, actors: actorQuery }).populate('genre', 'name').populate('director', 'name');
+        if (movies.length === 0) {
+          return { success: false, statusCode: 404, message: `Found no movie with genre ${genreQuery} starring ${actorQuery}.` };
+        }
+        return { success: true, movies };
+      } catch (error) {
+        return { success: false, statusCode: 500, error };
+      }
+    // Get movies by actor
+    } else if (actorQuery) {
+      try {
+        const movies = await Movies.find({ actors: actorQuery }).populate('genre', 'name').populate('directors', 'name');
+        if (movies.length === 0) {
+          return { success: false, statusCode: 404, message: `Found no movie starring ${actorQuery}.` };
+        }
+        return { success: true, movies };
+      } catch (error) {
+        return { success: false, statusCode: 500, error };
+      }
+    // Get movies by genre ID
+    } else if (genreQuery) {
+      try {
+        const movies = await Movies.find({ genre: genreQuery }).populate('genre', 'name').populate('director', 'name');
+        if (movies.length === 0) {
+          return { success: false, statusCode: 404, message: `Found no movie with genre ${genreQuery}.` };
+        }
+        return { success: true, movies };
+      } catch (error) {
+        return { success: false, statusCode: 500, error };
+      }
+    } else {
+    // Get all movies
+      try {
+        const movies = await Movies.find({}).populate('genre', 'name').populate('director', 'name');
+        return { success: true, movies };
+      } catch (error) {
+        return { success: false, statusCode: 500, error };
+      }
+    }
+  },
 };
 
-exports.get_movies_by_genre_actor = async (req, res) => {
-  // Get movies by genre & actor
-  const genreQuery = xss(req.query.genre);
-  const actorQuery = xss(req.query.actor);
-  if (genreQuery && actorQuery) {
-    try {
-      const movies = await Movies.find({ genre: genreQuery, actors: actorQuery }).populate('genre', 'name').populate('director', 'name');
-      if (movies.length === 0) {
-        res.status(404).send(`Found no movie with genre ${genreQuery} starring ${actorQuery}.`);
-      } else {
-        res.status(200).json(movies);
-      }
-    } catch (error) {
-      res.status(500).send(`Error: ${error}`);
-    }
-    // Get movies by actor
-  } else if (actorQuery) {
-    try {
-      const movies = await Movies.find({ actors: actorQuery }).populate('genre', 'name').populate('directors', 'name');
-      if (movies.length === 0) {
-        res.status(404).send(`Found no movie starring ${actorQuery}.`);
-      } else {
-        res.status(201).json(movies);
-      }
-    } catch (error) {
-      res.status(500).send(`Error: ${error}`);
-    }
-    // Get movies by genre ID
-  } else if (genreQuery) {
-    try {
-      const movies = await Movies.find({ genre: genreQuery }).populate('genre', 'name').populate('director', 'name');
-      if (movies.length === 0) {
-        res.status(404).send(`Found no movie with genre ${genreQuery}.`);
-      } else {
-        res.status(200).json(movies);
-      }
-    } catch (error) {
-      res.status(500).send(`Error: ${error}`);
-    }
-  } else {
-    // Get all movies
-    try {
-      const movies = await Movies.find({}).populate('genre', 'name').populate('director', 'name');
-      res.status(200).json(movies);
-    } catch (error) {
-      res.status(500).send(`Error: ${error}`);
-    }
-  }
-};
+module.exports = MoviesServices;
