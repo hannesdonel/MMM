@@ -89,16 +89,16 @@ UsersRouter
     }
   })
   // Add movie to favorites
-  .post('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const result = UsersServices.post_favorites(req);
-    console.log(result);
+  .post('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const result = await UsersServices.post_favorites(req);
     try {
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
       } else if (!result.success && result.statusCode === 500) {
         res.status(500).send(result.error);
+      } else {
+        res.status(201).send(result.message);
       }
-      res.status(201).send(result.message);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -109,6 +109,8 @@ UsersRouter
     try {
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
+      } else if (!result.success && result.statusCode === 500) {
+        res.status(500).send(result.error);
       } else {
         res.status(201).send(result.message);
       }

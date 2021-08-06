@@ -2,6 +2,7 @@ const xss = require('xss');
 
 const Models = require('../models');
 
+const { Movies } = Models;
 const { Users } = Models;
 
 const UsersServices = {
@@ -97,30 +98,44 @@ const UsersServices = {
     }
   },
   // Add movie to favorites
-  post_favorites: (req) => {
-    Users.findOneAndUpdate({ user_name: req.params.user_name }, {
-      $addToSet: { favorites: req.params.movieID },
-    },
-    { new: true },
-    (err) => {
-      if (err) {
+  post_favorites: async (req) => {
+    try {
+      const movie = await Movies.findOne({ _id: req.params.movieID });
+      if (!movie) {
         return { success: false, statusCode: 404, message: `Movie with ID ${req.params.movieID} doesn't exist.` };
       }
+      await Users.findOneAndUpdate(
+        {
+          user_name: req.params.user_name,
+        }, {
+          $addToSet: { favorites: req.params.movieID },
+        },
+        { new: true },
+      );
       return { success: true, message: `Movie ${req.params.movieID} has been successfully added to your favorites.` };
-    });
+    } catch (error) {
+      return { sucess: false, statusCode: 500, error };
+    }
   },
   // Remove movie from favorites
   delete_favorites: async (req) => {
-    await Users.findOneAndUpdate({ user_name: req.params.user_name }, {
-      $pull: { favorites: req.params.movieID },
-    },
-    { new: true },
-    (err) => {
-      if (err) {
+    try {
+      const movie = await Movies.findOne({ _id: req.params.movieID });
+      if (!movie) {
         return { success: false, statusCode: 404, message: `Movie with ID ${req.params.movieID} doesn't exist.` };
       }
+      await Users.findOneAndUpdate(
+        {
+          user_name: req.params.user_name,
+        }, {
+          $pull: { favorites: req.params.movieID },
+        },
+        { new: true },
+      );
       return { success: true, message: `Movie ${req.params.movieID} has been successfully deleted from your favorites.` };
-    });
+    } catch (error) {
+      return { sucess: false, statusCode: 500, error };
+    }
   },
 };
 
