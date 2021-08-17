@@ -25,7 +25,15 @@ const auth = require('./auth')(app);
 
 // Trusted domain
 // Allow all domains
-app.use(cors());
+
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 
 // Limit allowed domains
 /*
