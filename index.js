@@ -9,6 +9,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 
 app.use(morgan('common'));
+app.use(cors());
 
 const config = require('./config');
 
@@ -24,8 +25,6 @@ const auth = require('./auth')(app);
 
 // Trusted domain
 // Allow all domains
-
-app.use(cors());
 
 // Limit allowed domains
 /*
