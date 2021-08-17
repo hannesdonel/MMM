@@ -21,7 +21,7 @@ MoviesRouter
     }
   })
 // Get all movies and movies by genre and/or actor
-  .get('/', /* passport.authenticate('jwt', { session: false }), */async (req, res) => {
+  .get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const result = await MoviesServices.get_movies_by_genre_actor(req);
     try {
       if (!result.success && result.statusCode === 404) {
