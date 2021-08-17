@@ -1,304 +1,217 @@
 <!DOCTYPE html>
 
 <html lang="en-us">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="robots" content="noindex" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MORE MOVIE METADATA</title>
-    <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
-</head>
+    <link rel="stylesheet" type="text/css" href="/public/css/styles.css" />
+  </head>
 
-<body>
+  <body>
     <h1>MMM Documentation</h1>
-    <p>Welcome! If you're here, you want to know how things work here. Lucky you, this
-        <b>documentation</b> will help you with that.
+    <p>
+      Welcome! If you're here, you want to know how things work here. Lucky you,
+      this <b>documentation</b> will help you with that.
     </p>
     <div class="table-wrapper">
-        <table>
-            <thead class="table">
-                <tr>
-                    <th>Request</th>
-                    <th>URL</th>
-                    <th>HTTP Method</th>
-                    <th>Request data format</th>
-                    <th>Response data format</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        Get list of all movies
-                    </td>
-                    <td>
-                        /movies
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        A JSON object holding all data about all movies: <br><br>
-                        {<br>
-                        "_id" : ObjectId("IDNUMBER"),<br>
-                        "title": "movieName",<br>
-                        "descripction": "Lorem ipsum..."<br>
-                        "director": {<br>
-                        <span class="object-indentation">"name" : "Al Capone",</span><br>
-                        <span class="object-indentation">"bio" : "Biography of Al Capone.",</span><br>
-                        <span class="object-indentation">"birth_year" : "1976",</span><br>
-                        <span class="object-indentation">"death_year" : ""</span><br>
-                        },<br>
-                        "actors": [ "Actor 1", "Actor 2", "Actor 3" ],<br>
-                        "genre": {<br>
-                        <span class="object-indentation">"name": "Mafia",</span><br>
-                        <span class="object-indentation">"description": "Description of Mafia genre."</span><br>
-                        },<br>
-                        "imageUrl": "www.link.to/movie/coverartwork"<br>
-                        "featured": false<br>
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        A search query returning movies by genre or/and actor.
-                    </td>
-                    <td>
-                        /movies/?genre=[genreID] or/and /movies/?actor=[actor]
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        The search query should contain "genreID" or/and "actor".
-                    </td>
-                    <td>
-                        A JSON object holding all movies assigned to a specific genre or/and actor.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Return data about a single movie by title.
-                    </td>
-                    <td>
-                        /movies/:itle
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        Specify movie title in URL. The query is case sensitive!
-                    </td>
-                    <td>
-                        A JSON object holding data about a single movie by title.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Return data about all genres.
-                    </td>
-                    <td>
-                        /genres
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        A JSON object holding data about all genres:
-                        <br><br>
-                        {<br>
-                        "name": "Sci-Fi",<br>
-                        "description": "Lorem ipsum..."<br>
-                        }
-                    </td>
-                </tr>
+      <table>
+        <thead class="table">
+          <tr>
+            <th>Request</th>
+            <th>URL</th>
+            <th>HTTP Method</th>
+            <th>Request data format</th>
+            <th>Response data format</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Get list of all movies</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>-</td>
+            <td>
+              A JSON object holding all data about all movies: <br /><br />
+              {<br />
+              "_id" : ObjectId("IDNUMBER"),<br />
+              "title": "movieName",<br />
+              "descripction": "Lorem ipsum..."<br />
+              "director": {<br />
+              <span class="object-indentation">"name" : "Al Capone",</span
+              ><br />
+              <span class="object-indentation"
+                >"bio" : "Biography of Al Capone.",</span
+              ><br />
+              <span class="object-indentation">"birth_year" : "1976",</span
+              ><br />
+              <span class="object-indentation">"death_year" : ""</span><br />
+              },<br />
+              "actors": [ "Actor 1", "Actor 2", "Actor 3" ],<br />
+              "genre": {<br />
+              <span class="object-indentation">"name": "Mafia",</span><br />
+              <span class="object-indentation"
+                >"description": "Description of Mafia genre."</span
+              ><br />
+              },<br />
+              "imageUrl": "www.link.to/movie/coverartwork"<br />
+              "featured": false<br />
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>A search query returning movies by genre or/and actor.</td>
+            <td>/movies/?genre=[genreID] or/and /movies/?actor=[actor]</td>
+            <td>GET</td>
+            <td>The search query should contain "genreID" or/and "actor".</td>
+            <td>
+              A JSON object holding all movies assigned to a specific genre
+              or/and actor.
+            </td>
+          </tr>
+          <tr>
+            <td>Return data about a single movie by title.</td>
+            <td>/movies/:itle</td>
+            <td>GET</td>
+            <td>Specify movie title in URL. The query is case sensitive!</td>
+            <td>A JSON object holding data about a single movie by title.</td>
+          </tr>
+          <tr>
+            <td>Return data about all genres.</td>
+            <td>/genres</td>
+            <td>GET</td>
+            <td>-</td>
+            <td>
+              A JSON object holding data about all genres:
+              <br /><br />
+              {<br />
+              "name": "Sci-Fi",<br />
+              "description": "Lorem ipsum..."<br />
+              }
+            </td>
+          </tr>
 
-                <tr>
-                    <td>
-                        Return data about a genre by name.
-                    </td>
-                    <td>
-                        /genre/:name
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        Specify genre name in URL. The query is case sensitive!
-                    </td>
-                    <td>
-                        A JSON object holding data about a genre by name.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Return data about all directors.
-                    </td>
-                    <td>
-                        /directors
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        A JSON object holding data about all directors:
-                        <br><br>
-                        {<br>
-                        "name": "Al Capone",<br>
-                        "bio": "Al Capone was the most funniest movie director ever. Especially when it comes to Mafia
-                        movies.",<br>
-                        "birth_year": "1927",<br>
-                        "death_year": "2027"<br>
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Return data about a director by name.
-                    </td>
-                    <td>
-                        /directors/:name
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        Specify director name in URL. The query is case sensitive!
-                    </td>
-                    <td>
-                        A JSON object holding data about a director.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Allow new users to register.
-                    </td>
-                    <td>
-                        /users
-                    </td>
-                    <td>
-                        POST
-                    </td>
-                    <td>
-                        A JSON object holding data containing first name, last name, age and mail adress. Example:
-                        <br><br>
-                        {<br>
-                        "user_name" : STRING,<br>
-                        "password" : STRING,<br>
-                        "email" : STRING,<br>
-                        "birth_date" : DATE<br>
-                        }
-                    </td>
-                    <td>
-                        A verification message if the registration has been succesfull or not. In case of success you'll
-                        get the new user as a JSON object.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Allow users to deregister by ID.
-                    </td>
-                    <td>
-                        /users/:id
-                    </td>
-                    <td>
-                        DELETE
-                    </td>
-                    <td>
-                        The ID of the user to be deleted should be put after /users/ in the URL."
-                    </td>
-                    <td>
-                        A verification message if the deregistration has been succesfull or not.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Allow users to see their information by name.
-                    </td>
-                    <td>
-                        /users/:user_name
-                    </td>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        The name of the user to be shown should be put after /users/ in the URL.
-                    </td>
-                    <td>
-                        A JSON object holding all data about a specific user.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Allow users to update their user data by ID.
-                    </td>
-                    <td>
-                        /users/:id
-                    </td>
-                    <td>
-                        PUT
-                    </td>
-                    <td>
-                        A JSON object holding new user data. Example: <br><br>
-                        {<br>
-                        "user_name" : STRING,<br>
-                        "password" : STRING,<br>
-                        "email" : STRING,<br>
-                        "birth_date" : DATE<br>
-                        " }
-                    </td>
-                    <td>
-                        A verification message that a new username was succesfully assigned or failed.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Allow users to add a movie to their list of favorites.
-                    </td>
-                    <td>
-                        /users/:user_name/favorites/:movieID
-                    </td>
-                    <td>
-                        POST
-                    </td>
-                    <td>
-                        user_name indicates which user's favorites to be updated. :movieID provides ID of the movie to
-                        be added.
-                    </td>
-                    <td>
-                        A message wether the film has been added succesfully to the favorites or not.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Allow users to remove a movie from their list of favorites.
-                    </td>
-                    <td>
-                        /users/:user_name/favorites/:movieID
-                    </td>
-                    <td>
-                        DELETE
-                    </td>
-                    <td>
-                        user_name indicates which user's favorites to be updated. :movieID provides ID of the movie to
-                        be removed.
-                    </td>
-                    <td>
-                        A message wether the film has been aremoved succesfully from the favorites or not.
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+          <tr>
+            <td>Return data about a genre by name.</td>
+            <td>/genre/:name</td>
+            <td>GET</td>
+            <td>Specify genre name in URL. The query is case sensitive!</td>
+            <td>A JSON object holding data about a genre by name.</td>
+          </tr>
+          <tr>
+            <td>Return data about all directors.</td>
+            <td>/directors</td>
+            <td>GET</td>
+            <td>-</td>
+            <td>
+              A JSON object holding data about all directors:
+              <br /><br />
+              {<br />
+              "name": "Al Capone",<br />
+              "bio": "Al Capone was the most funniest movie director ever.
+              Especially when it comes to Mafia movies.",<br />
+              "birth_year": "1927",<br />
+              "death_year": "2027"<br />
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Return data about a director by name.</td>
+            <td>/directors/:name</td>
+            <td>GET</td>
+            <td>Specify director name in URL. The query is case sensitive!</td>
+            <td>A JSON object holding data about a director.</td>
+          </tr>
+          <tr>
+            <td>Allow new users to register.</td>
+            <td>/users</td>
+            <td>POST</td>
+            <td>
+              A JSON object holding data containing first name, last name, age,
+              mail adress and birthday. Example:
+              <br /><br />
+              {<br />
+              "user_name" : STRING,<br />
+              "password" : STRING,<br />
+              "email" : STRING,<br />
+              "birth_date" : STRING (YYYY-MM-DD)<br />
+              }
+            </td>
+            <td>
+              A verification message if the registration has been succesfull or
+              not. In case of success you'll get the new user as a JSON object.
+            </td>
+          </tr>
+          <tr>
+            <td>Allow users to deregister by ID.</td>
+            <td>/users/:id</td>
+            <td>DELETE</td>
+            <td>
+              The ID of the user to be deleted should be put after /users/ in
+              the URL."
+            </td>
+            <td>
+              A verification message if the deregistration has been succesfull
+              or not.
+            </td>
+          </tr>
+          <tr>
+            <td>Allow users to see their information by name.</td>
+            <td>/users/:user_name</td>
+            <td>GET</td>
+            <td>
+              The name of the user to be shown should be put after /users/ in
+              the URL.
+            </td>
+            <td>A JSON object holding all data about a specific user.</td>
+          </tr>
+          <tr>
+            <td>Allow users to update their user data by ID.</td>
+            <td>/users/:id</td>
+            <td>PUT</td>
+            <td>
+              A JSON object holding new user data. Example: <br /><br />
+              {<br />
+              "user_name" : STRING,<br />
+              "password" : STRING,<br />
+              "email" : STRING,<br />
+              "birth_date" : DATE<br />
+              " }
+            </td>
+            <td>
+              A verification message that a new username was succesfully
+              assigned or failed.
+            </td>
+          </tr>
+          <tr>
+            <td>Allow users to add a movie to their list of favorites.</td>
+            <td>/users/:user_name/favorites/:movieID</td>
+            <td>POST</td>
+            <td>
+              user_name indicates which user's favorites to be updated. :movieID
+              provides ID of the movie to be added.
+            </td>
+            <td>
+              A message wether the film has been added succesfully to the
+              favorites or not.
+            </td>
+          </tr>
+          <tr>
+            <td>Allow users to remove a movie from their list of favorites.</td>
+            <td>/users/:user_name/favorites/:movieID</td>
+            <td>DELETE</td>
+            <td>
+              user_name indicates which user's favorites to be updated. :movieID
+              provides ID of the movie to be removed.
+            </td>
+            <td>
+              A message wether the film has been aremoved succesfully from the
+              favorites or not.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-</body>
-
+  </body>
 </html>
