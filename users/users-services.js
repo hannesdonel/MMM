@@ -76,7 +76,7 @@ const UsersServices = {
       }
       if (req.body.password) {
         const hashedPassword = Users.hashPassword(req.body.password);
-        updateObject.user_name = hashedPassword;
+        updateObject.password = hashedPassword;
       }
       if (req.body.email) {
         updateObject.email = req.body.email;
