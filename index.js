@@ -5,10 +5,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: '*',
-  exposedHeaders: ['Content-Range', 'X-Content-Range'],
-}));
+app.use(cors());
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
