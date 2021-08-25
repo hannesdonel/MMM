@@ -98,7 +98,7 @@ const UsersServices = {
     }
   },
   // Add movie to favorites
-  post_favorites: async (req) => {
+  put_favorites: async (req) => {
     try {
       const movie = await Movies.findOne({ _id: req.params.movieID });
       if (!movie) {

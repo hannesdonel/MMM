@@ -89,8 +89,8 @@ UsersRouter
     }
   })
   // Add movie to favorites
-  .post('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const result = await UsersServices.post_favorites(req);
+  .put('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const result = await UsersServices.put_favorites(req);
     try {
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
