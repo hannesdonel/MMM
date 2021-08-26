@@ -50,7 +50,17 @@ const UsersServices = {
   // Get information about a user by name.
   get_user_information: async (req) => {
     try {
-      const user = await Users.findOne({ user_name: req.params.user_name }).populate('favorites');
+      const user = await Users.findOne({ user_name: req.params.user_name }).populate('favorites').populate({
+        path: 'favorites',
+        populate: {
+          path: 'director',
+        },
+      }).populate({
+        path: 'favorites',
+        populate: {
+          path: 'genre',
+        },
+      });
       if (!user) {
         return { success: false, statusCode: 404, message: `User ${xss(req.params.user_name)} doesn't exist.` };
       }
