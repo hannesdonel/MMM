@@ -81,9 +81,10 @@ const UsersServices = {
     try {
       const anotherUser = await Users.findOne({ user_name: req.body.user_name });
       const user = await Users.findOne({ _id: req.params._id });
-      if (Object.keys(req.body).length > 0 && anotherUser._id !== user._id) {
+      if (anotherUser && anotherUser._id !== user._id) {
         return { success: false, statusCode: 404, message: `${req.body.user_name} already exists. Please choose another username.` };
-      } if (Object.keys(req.body).length > 0 && user) {
+      }
+      if (Object.keys(req.body).length > 0 && user && anotherUser._id === user._id) {
         const updateObject = {};
 
         if (req.body.user_name) {
@@ -106,9 +107,10 @@ const UsersServices = {
         { new: true });
         if (updatedUser) {
           return { success: true, message: `User data successfully changed:<br>${JSON.stringify(Users.serialize(updatedUser))}` };
-        } if (!user) {
-          return { sucess: false, statusCode: 404, message: `User ${req.params._id} doesn't exist.` };
-        }
+        } return { sucess: false, statusCode: 500, error: 'Something went wrong. Please contact admin.' };
+      }
+      if (!user) {
+        return { sucess: false, statusCode: 404, message: `User ${req.params._id} doesn't exist.` };
       }
     } catch (error) {
       return { sucess: false, statusCode: 500, error };
