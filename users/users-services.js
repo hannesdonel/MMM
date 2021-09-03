@@ -84,7 +84,7 @@ const UsersServices = {
       if (anotherUser && req.params._id != anotherUser._id) {
         return { success: false, statusCode: 404, message: `${req.body.user_name} already exists. Please choose another username.` };
       }
-      if (user && !anotherUser) {
+      if (user) {
         const updateObject = {};
 
         if (req.body.user_name) {
