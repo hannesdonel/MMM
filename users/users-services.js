@@ -79,30 +79,37 @@ const UsersServices = {
   } */
   put_user_information: async (req) => {
     try {
-      const updateObject = {};
+      const anotherUser = await Users.findOne({ user_name: req.body.user_name });
+      const user = await Users.findOne({ _id: req.params._id });
+      if (anotherUser && Object.keys(req.body).length > 0) {
+        return { success: false, statusCode: 404, message: `${req.body.user_name} already exists. Please choose another username.` };
+      } if (!anotherUser && Object.keys(req.body).length > 0 && user) {
+        const updateObject = {};
 
-      if (req.body.user_name) {
-        updateObject.user_name = req.body.user_name;
-      }
-      if (req.body.password) {
-        const hashedPassword = Users.hashPassword(req.body.password);
-        updateObject.password = hashedPassword;
-      }
-      if (req.body.email) {
-        updateObject.email = req.body.email;
-      }
-      if (req.body.birth_date) {
-        updateObject.birth_date = req.body.birth_date;
-      }
+        if (req.body.user_name) {
+          updateObject.user_name = req.body.user_name;
+        }
+        if (req.body.password) {
+          const hashedPassword = Users.hashPassword(req.body.password);
+          updateObject.password = hashedPassword;
+        }
+        if (req.body.email) {
+          updateObject.email = req.body.email;
+        }
+        if (req.body.birth_date) {
+          updateObject.birth_date = req.body.birth_date;
+        }
 
-      const updatedUser = await Users.findOneAndUpdate({ _id: req.params._id }, {
-        $set: updateObject,
-      },
-      { new: true });
-      if (updatedUser) {
-        return { success: true, message: `User data successfully changed:<br>${JSON.stringify(Users.serialize(updatedUser))}` };
+        const updatedUser = await Users.findOneAndUpdate({ _id: req.params._id }, {
+          $set: updateObject,
+        },
+        { new: true });
+        if (updatedUser) {
+          return { success: true, message: `User data successfully changed:<br>${JSON.stringify(Users.serialize(updatedUser))}` };
+        } if (!user) {
+          return { sucess: false, statusCode: 404, message: `User ${req.params._id} doesn't exist.` };
+        }
       }
-      return { sucess: false, statusCode: 404, message: `User ${req.params._id} doesn't exist.` };
     } catch (error) {
       return { sucess: false, statusCode: 500, error };
     }
