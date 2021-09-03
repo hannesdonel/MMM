@@ -14,5 +14,7 @@ module.exports = {
     'no-unused-vars': ['error', { argsIgnorePattern: 'next' }],
     'consistent-return': 'off',
     'no-underscore-dangle': 'off',
+    /* eslint-disable-next-line */
+    'eqeqeq': 'off',
   },
 };

@@ -81,10 +81,10 @@ const UsersServices = {
     try {
       const anotherUser = await Users.findOne({ user_name: req.body.user_name });
       const user = await Users.findOne({ _id: req.params._id });
-      if (anotherUser && anotherUser._id !== user._id) {
+      if (anotherUser && req.params._id != anotherUser._id) {
         return { success: false, statusCode: 404, message: `${req.body.user_name} already exists. Please choose another username.` };
       }
-      if (Object.keys(req.body).length > 0 && user && anotherUser._id === user._id) {
+      if (user && req.params._id == anotherUser._id) {
         const updateObject = {};
 
         if (req.body.user_name) {
