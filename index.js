@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080', 'https://more-movie-metadata.netlify.app'];
+const allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://more-movie-metadata.netlify.app'];
 
 app.use(cors({
   origin: (origin, callback) => {
