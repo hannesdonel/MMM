@@ -79,6 +79,10 @@ const UsersServices = {
   } */
   put_user_information: async (req) => {
     try {
+      const user = await Users.findOne({ user_name: req.body.user_name });
+      if (user && Object.keys(req.body).length > 0) {
+        return { success: false, statusCode: 404, message: `${req.body.user_name} already exists. Please choose another username.` };
+      }
       const updateObject = {};
 
       if (req.body.user_name) {
