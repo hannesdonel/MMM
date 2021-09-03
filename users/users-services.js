@@ -47,10 +47,10 @@ const UsersServices = {
       return { sucess: false, statusCode: 500, error };
     }
   },
-  // Get information about a user by name.
+  // Get information about a user by ID.
   get_user_information: async (req) => {
     try {
-      const user = await Users.findOne({ user_name: req.params.user_name }).populate('favorites').populate({
+      const user = await Users.findOne({ _id: req.params._id }).populate('favorites').populate({
         path: 'favorites',
         populate: {
           path: 'director',
@@ -125,7 +125,7 @@ const UsersServices = {
       }
       await Users.findOneAndUpdate(
         {
-          user_name: req.params.user_name,
+          _id: req.params._id,
         }, {
           $addToSet: { favorites: req.params.movieID },
         },
@@ -145,7 +145,7 @@ const UsersServices = {
       }
       await Users.findOneAndUpdate(
         {
-          user_name: req.params.user_name,
+          _id: req.params._id,
         }, {
           $pull: { favorites: req.params.movieID },
         },

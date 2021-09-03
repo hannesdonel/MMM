@@ -51,8 +51,8 @@ UsersRouter
       res.status(500).send(error);
     }
   })
-  // Get information about a user by name.
-  .get('/:user_name', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  // Get information about a user by ID.
+  .get('/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const result = await UsersServices.get_user_information(req);
     try {
       if (!result.success && result.statusCode === 404) {
@@ -89,7 +89,7 @@ UsersRouter
     }
   })
   // Add movie to favorites
-  .put('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  .put('/:_id/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const result = await UsersServices.put_favorites(req);
     try {
       if (!result.success && result.statusCode === 404) {
@@ -104,7 +104,7 @@ UsersRouter
     }
   })
   // Remove movie from favorites
-  .delete('/:user_name/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  .delete('/:_id/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const result = await UsersServices.delete_favorites(req);
     try {
       if (!result.success && result.statusCode === 404) {
