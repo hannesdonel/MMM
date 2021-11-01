@@ -97,7 +97,7 @@ UsersRouter
       } else if (!result.success && result.statusCode === 500) {
         res.status(500).send(result.error);
       } else {
-        res.status(201).send(result.message);
+        res.status(201).send(result);
       }
     } catch (error) {
       res.status(500).send(error);
