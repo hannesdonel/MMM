@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://more-movie-metadata.netlify.app', 'https://hannesdonel.github.io/MMM-client-Angular'];
+const allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://more-movie-metadata.netlify.app', 'https://hannesdonel.github.io'];
 
 app.use(cors({
   origin: (origin, callback) => {
