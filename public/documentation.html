@@ -35,26 +35,23 @@
             <td>
               A JSON object holding all data about all movies: <br /><br />
               {<br />
-              "_id" : ObjectId("IDNUMBER"),<br />
-              "title": "movieName",<br />
-              "descripction": "Lorem ipsum..."<br />
-              "director": {<br />
-              <span class="object-indentation">"name" : "Al Capone",</span
+              "_id" : String,<br />
+              "title": String,<br />
+              "descripction": String<br />
+              "director": [{<br />
+              <span class="object-indentation">"name" : String,</span><br />
+              <span class="object-indentation">"bio" : String,</span><br />
+              <span class="object-indentation">"birth_year" : "String",</span
               ><br />
-              <span class="object-indentation"
-                >"bio" : "Biography of Al Capone.",</span
+              <span class="object-indentation">"death_year" : "String"</span
               ><br />
-              <span class="object-indentation">"birth_year" : "1976",</span
+              }, { Director 2... }],<br />
+              "actors": [ String, String, String... ],<br />
+              "genre": [{<br />
+              <span class="object-indentation">"name": String,</span><br />
+              <span class="object-indentation">"description": String</span
               ><br />
-              <span class="object-indentation">"death_year" : ""</span><br />
-              },<br />
-              "actors": [ "Actor 1", "Actor 2", "Actor 3" ],<br />
-              "genre": {<br />
-              <span class="object-indentation">"name": "Mafia",</span><br />
-              <span class="object-indentation"
-                >"description": "Description of Mafia genre."</span
-              ><br />
-              },<br />
+              }, { Genre 2... }],<br />
               "imageUrl": "www.link.to/movie/coverartwork"<br />
               "featured": false<br />
               }
