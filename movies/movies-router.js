@@ -7,8 +7,8 @@ const MoviesServices = require('./movies-services');
 MoviesRouter
 // Get movie by title
   .get('/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const result = await MoviesServices.get_movie_by_title(req);
     try {
+      const result = await MoviesServices.get_movie_by_title(req);
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
       } else if (!result.success && result.statusCode === 500) {
