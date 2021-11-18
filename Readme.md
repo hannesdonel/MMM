@@ -2,14 +2,14 @@
 
 This is MORE MOVIE METADATA backend. This <b>RESTful API</b> provides all necessary endpoints to access the movie, genre, director and user collections stored within a <b>MongoDB</b> database which I also crafted by myself.
 
-### Security:
+#### Security:
 It's fully protected through an authorization and authentication process, you can sign up for your own user account to retrieve full access and save favorite movies. Furthermore it meets a high level data security regulation including data validation. 
 
-### Endpoints:
+#### Endpoints:
 Endpoints can be accessed via standard http methods like GET, POST, PUT and DELETE.
 You'll find the detailed documentation of those endpoints here: https://more-movie-metadata.herokuapp.com/documentation
 
-### Client:
+#### Client:
 I also coded an user client that uses this backend:
 - with REACT: https://github.com/hannesdonel/MMM-client
 - with Angular: https://github.com/hannesdonel/MMM-client-Angular
