@@ -3,7 +3,14 @@ const Models = require('../models');
 
 const { Directors } = Models;
 
-/** These services are browsing the database for a specific request on directors. */
+/**
+ * These services are browsing the database for a specific request on directors and return
+ * one director or an array of director. A director is an object:
+ *
+ * @property {string} name - Name of director
+ * @property {string} bio - Biography of director
+ * @property {string} birth_year - Birth year of director
+ * @property {string} death_year - Death year of director */
 const DirectorsServices = {
   // Get all directors
   get_all_directors: async () => {

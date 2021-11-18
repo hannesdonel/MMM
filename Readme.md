@@ -19,6 +19,7 @@ I also coded an user client that uses this backend:
 
 #### Codebase:
 - node.js
+- nodemon
 - express
 - mongoose
 - dotenv

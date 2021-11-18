@@ -4,8 +4,12 @@ const passport = require('passport');
 const DirectorsRouter = express.Router();
 const DirectorsServices = require('./directors-services');
 
-// eslint-disable-next-line max-len
-/** These routes are connecting an API call with the matching CRUD action on the database in the directors collection. */
+/**
+ * These routes are connecting an API call with the matching CRUD action on the database
+ * in the directors collection.
+ *
+ * @module DirectorsRouter
+ */
 DirectorsRouter
 // Get all directors
   .get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {

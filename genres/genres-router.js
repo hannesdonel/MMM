@@ -4,8 +4,12 @@ const passport = require('passport');
 const GenresRouter = express.Router();
 const GenresServices = require('./genres-services');
 
-// eslint-disable-next-line max-len
-/** These routes are connecting an API call with the matching CRUD action on the database in the genres collection. */
+/**
+ * These routes are connecting an API call with the matching CRUD action on the database
+ * in the genres collection.
+ *
+ * @module GenresRouter
+ */
 GenresRouter
 // Get all genres
   .get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {

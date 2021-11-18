@@ -11,7 +11,7 @@ const { Users } = Models;
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
-/** Definition of athentication process. */
+/** Definition of authentication process. */
 passport.use(new LocalStrategy({
   usernameField: 'user_name',
   passwordField: 'password',

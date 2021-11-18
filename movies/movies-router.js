@@ -4,8 +4,12 @@ const passport = require('passport');
 const MoviesRouter = express.Router();
 const MoviesServices = require('./movies-services');
 
-// eslint-disable-next-line max-len
-/** These routes are connecting an API call with the matching CRUD action on the database in the movies collection. */
+/**
+ * These routes are connecting an API call with the matching CRUD action on the database
+ * in the movies collection.
+ *
+ * @module MoviesRouter
+ */
 MoviesRouter
 // Get movie by title
   .get('/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {

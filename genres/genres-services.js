@@ -3,7 +3,12 @@ const Models = require('../models');
 
 const { Genres } = Models;
 
-/** These services are browsing the database for a specific request on genres. */
+/** These services are browsing the database for a specific request on genres and return
+ * one genre or an array of genres. A genre is an object:
+ *
+ * @property {string} name - Name of genre
+ * @property {string} description - Description of genre
+*/
 const GenresServices = {
   // Get all genres
   get_all_genres: async () => {

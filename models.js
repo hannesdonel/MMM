@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const xss = require('xss');
 
-/** Definition of schemata for communication with database. */
+/**
+ * Definition of schemata for communication with database.
+ *
+ * @module Schemata
+ */
 
 const movieSchema = mongoose.Schema({
   title: { type: String, required: true },

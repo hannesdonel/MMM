@@ -6,6 +6,8 @@ const config = require('./config');
 
 const { JWT_SECRET } = config;
 
+/** @module Authentication */
+
 /** Creation of JWT token. */
 const generateJWTToken = (user) => jwt.sign(user, JWT_SECRET, {
   subject: user.user_name,
