@@ -6,12 +6,14 @@ const config = require('./config');
 
 const { JWT_SECRET } = config;
 
+/** Creation of JWT token. */
 const generateJWTToken = (user) => jwt.sign(user, JWT_SECRET, {
   subject: user.user_name,
   expiresIn: '7d',
   algorithm: 'HS256',
 });
 
+/** Definition and functionality of /login endpoint. */
 module.exports = (router) => {
   router.post('/login', (req, res) => {
     passport.authenticate('local', { session: false }, (error1, user) => {

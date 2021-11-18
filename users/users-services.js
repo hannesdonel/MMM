@@ -2,8 +2,7 @@ const xss = require('xss');
 
 const Models = require('../models');
 
-const { Movies } = Models;
-const { Users } = Models;
+const { Movies, Users } = Models;
 
 /** These services are browsing the database for a specific request on users.
  *

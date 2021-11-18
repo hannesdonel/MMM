@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const xss = require('xss');
 
+/** Definition of schemata for communication with database. */
+
 const movieSchema = mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
@@ -32,8 +34,16 @@ const userSchema = mongoose.Schema({
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
 });
 
+/** Password hashing. */
 userSchema.statics.hashPassword = (password) => bcrypt.hashSync(password, 10);
 
+/** Hashed password comparison. */
+/* eslint-disable-next-line */
+userSchema.methods.validatePassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+/** Serializing username and email to prevent xss attacks. */
 userSchema.statics.serialize = (user) => ({
   _id: user._id,
   user_name: xss(user.user_name),
@@ -41,11 +51,6 @@ userSchema.statics.serialize = (user) => ({
   birth_date: user.birth_date,
   favorites: user.favorites,
 });
-
-/* eslint-disable-next-line */
-userSchema.methods.validatePassword = function(password) {
-  return bcrypt.compareSync(password, this.password);
-};
 
 const Movies = mongoose.model('Movie', movieSchema);
 const Genres = mongoose.model('Genre', genreSchema);

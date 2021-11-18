@@ -33,44 +33,41 @@ require('./passport');
 /* eslint-disable-next-line */
 const auth = require('./auth')(app);
 
-// GENERAL ROUTING
+/** General routing */
 
-// Routing for root
+/** Routing for root */
 app.get('/', (req, res) => {
   res.status(200).sendFile(`${__dirname}/public/index.html`);
 });
 
-// Make /public directory available
+/** Make /public directory available */
 app.use('/public', express.static('public'));
 
-// Routing for documentation
+/** Routing for documentation */
 app.get('/documentation', (req, res) => {
   res.status(200).sendFile(`${__dirname}/public/documentation.html`);
 });
 
-// MOVIES
-
+/** MOVIES */
 app.use('/movies', MoviesRouter);
 
-// GENRES
-
+/** GENRES */
 app.use('/genres', GenresRouter);
 
-// DIRECTORS
-
+/** DIRECTORS */
 app.use('/directors', DirectorsRouter);
 
-// USERS SECTION
-
+/** USERS SECTION */
 app.use('/users', UsersRouter);
 
-// Error handler
+/** Error handler */
 app.use((err, req, res, next) => {
   /* eslint-disable-next-line */
   console.error(err.stack);
   res.status(500).send('Ups, something went wrong. Please try again.');
 });
 
+/** Definition of development server. */
 const { PORT } = config;
 app.listen(PORT, '0.0.0.0', () => {
   /* eslint-disable-next-line */

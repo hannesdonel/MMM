@@ -11,6 +11,7 @@ const { Users } = Models;
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
+/** Definition of athentication process. */
 passport.use(new LocalStrategy({
   usernameField: 'user_name',
   passwordField: 'password',
@@ -27,6 +28,7 @@ passport.use(new LocalStrategy({
   });
 }));
 
+/** Checks for correctness of token. */
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey: JWT_SECRET,
