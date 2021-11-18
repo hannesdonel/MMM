@@ -3,6 +3,7 @@ const Models = require('../models');
 
 const { Movies } = Models;
 
+/** These services are browsing the database for a specific request on movies. */
 const MoviesServices = {
   // Get movie by title
   get_movie_by_title: async (req) => {

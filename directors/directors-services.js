@@ -3,6 +3,7 @@ const Models = require('../models');
 
 const { Directors } = Models;
 
+/** These services are browsing the database for a specific request on directors. */
 const DirectorsServices = {
   // Get all directors
   get_all_directors: async () => {

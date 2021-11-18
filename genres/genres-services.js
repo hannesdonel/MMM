@@ -3,6 +3,7 @@ const Models = require('../models');
 
 const { Genres } = Models;
 
+/** These services are browsing the database for a specific request on genres. */
 const GenresServices = {
   // Get all genres
   get_all_genres: async () => {

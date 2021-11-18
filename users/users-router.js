@@ -5,6 +5,7 @@ const passport = require('passport');
 const UsersRouter = express.Router();
 const UsersServices = require('./users-services');
 
+/** These services are browsing the database for a specific request on genres. */
 UsersRouter
   // User registration
   .post('/', [
@@ -23,8 +24,8 @@ UsersRouter
     if (!errors.isEmpty()) {
       res.status(422).send(errors);
     }
-    const result = await UsersServices.post_new_user(req);
     try {
+      const result = await UsersServices.post_new_user(req);
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
       } else if (!result.success && result.statusCode === 500) {
@@ -38,8 +39,8 @@ UsersRouter
   })
   // User deregistration by ID
   .delete('/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const result = await UsersServices.delete_user(req);
     try {
+      const result = await UsersServices.delete_user(req);
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
       } else if (!result.success && result.statusCode === 500) {
@@ -53,8 +54,8 @@ UsersRouter
   })
   // Get information about a user by ID.
   .get('/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const result = await UsersServices.get_user_information(req);
     try {
+      const result = await UsersServices.get_user_information(req);
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
       } else if (!result.success && result.statusCode === 500) {
@@ -66,17 +67,10 @@ UsersRouter
       res.status(500).send(error);
     }
   })
-  // Change user data (one at a time) by ID
-  /* We’ll expect JSON in this format
-  {
-    user_name: String,(required)
-    password: String,(required)
-    email: String,(required)
-    birth_date: Date
-  } */
+  // Change user data by ID
   .put('/:_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const result = await UsersServices.put_user_information(req);
     try {
+      const result = await UsersServices.put_user_information(req);
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
       } else if (!result.success && result.statusCode === 500) {
@@ -90,8 +84,8 @@ UsersRouter
   })
   // Add movie to favorites
   .put('/:_id/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const result = await UsersServices.put_favorites(req);
     try {
+      const result = await UsersServices.put_favorites(req);
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
       } else if (!result.success && result.statusCode === 500) {
@@ -105,8 +99,8 @@ UsersRouter
   })
   // Remove movie from favorites
   .delete('/:_id/favorites/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const result = await UsersServices.delete_favorites(req);
     try {
+      const result = await UsersServices.delete_favorites(req);
       if (!result.success && result.statusCode === 404) {
         res.status(404).send(result.message);
       } else if (!result.success && result.statusCode === 500) {

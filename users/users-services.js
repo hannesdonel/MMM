@@ -5,14 +5,16 @@ const Models = require('../models');
 const { Movies } = Models;
 const { Users } = Models;
 
+/** These services are browsing the database for a specific request on users.
+ *
+ * User object has the following structure:
+ *  user_name: String,(required)
+    password: String,(required)
+    email: String,(required)
+    birth_date: Date
+*/
 const UsersServices = {
-  /* User registration
-
-  We'll expect JSON in this format:
-    user_name: { type: String, required: true },
-    password: { type: String, required: true },
-    email: { type: String, required: true }  birth_date: Date,
-  */
+  // User registration
   post_new_user: async (req) => {
     try {
       const user = await Users.findOne({ user_name: req.body.user_name });
@@ -69,14 +71,7 @@ const UsersServices = {
       return { sucess: false, statusCode: 500, error };
     }
   },
-  // Change user data (one at a time) by ID
-  /* We’ll expect JSON in this format
-  {
-    user_name: String,(required)
-    password: String,(required)
-    email: String,(required)
-    birth_date: Date
-  } */
+  // Change user data by ID
   put_user_information: async (req) => {
     try {
       const anotherUser = await Users.findOne({ user_name: req.body.user_name });
