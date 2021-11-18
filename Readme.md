@@ -14,10 +14,11 @@ I also coded an user client that uses this backend:
 - with REACT: https://github.com/hannesdonel/MMM-client
 - with Angular: https://github.com/hannesdonel/MMM-client-Angular
 
+
 ## Technologies
 
-This is crafted with <b>node.js</b> using the folowing packages:
-
+#### Codebase:
+- node.js
 - express
 - mongoose
 - dotenv
@@ -28,20 +29,29 @@ This is crafted with <b>node.js</b> using the folowing packages:
 - passport
 - xss
 
+#### External tools:
 - The database is built by myself using <b>MongoDB</b>
 - I used <b>Postman</b> for endpoint testing
 - This code is hostet on <b>Heroku</b> to be always available
 
+
 ## Functionality
 
+#### Movies:
 - Return a list of all movies to the user
 - Return a list of movies by genre or/and actor
 - Return data (description, genre, director, image URL, whether it’s featured or not) about a
   single movie by title to the user
+
+#### Genres:
 - Return a list of all genres
 - Return data about a genre (description) by name/title (e.g., “Thriller”)
+
+#### Directors:
 - Return a list of all directors
 - Return data about a director (bio, birth year, death year) by name
+
+#### User:
 - Allow new users to register
 - Allow existing users to deregister
 - Get information about a user by name
