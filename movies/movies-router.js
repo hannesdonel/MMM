@@ -9,13 +9,14 @@ MoviesRouter
   .get('/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
       const result = await MoviesServices.get_movie_by_title(req);
-      if (!result.success && result.statusCode === 404) {
-        res.status(404).send(result.message);
-      } else if (!result.success && result.statusCode === 500) {
-        res.status(500).send(result.error);
-      } else {
-        res.status(200).send(result.movie);
-      }
+      console.log(result);
+      // if (!result.success && result.statusCode === 404) {
+      //   res.status(404).send(result.message);
+      // } else if (!result.success && result.statusCode === 500) {
+      //   res.status(500).send(result.error);
+      // } else {
+      //   res.status(200).send(result.movie);
+      // }
     } catch (error) {
       res.status(500).send(error);
     }
