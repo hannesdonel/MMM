@@ -1,129 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>JSDoc: Home</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="styles/prettify-tomorrow.css"
+    />
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css" />
+  </head>
 
-<body>
+  <body>
+    <div id="main">
+      <h1 class="page-title">Home</h1>
 
-<div id="main">
+      <section>
+        <article>
+          <h1>MORE MOVIE METADATA - backend</h1>
+          <p>
+            This is MORE MOVIE METADATA backend. This
+            <b>RESTful API</b> provides all necessary endpoints to access the
+            movie, genre, director and user collections stored within a
+            <b>MongoDB</b> database which I also crafted by myself.
+          </p>
+          <h4>Security:</h4>
+          <p>
+            It's fully protected through an authorization and authentication
+            process, you can sign up for your own user account to retrieve full
+            access and save favorite movies. Furthermore it meets a high level
+            data security regulation including data validation.
+          </p>
+          <h4>Endpoints:</h4>
+          <p>
+            Endpoints can be accessed via standard http methods like GET, POST,
+            PUT and DELETE. You'll find the detailed documentation of those
+            endpoints here:
+            https://more-movie-metadata.herokuapp.com/documentation
+          </p>
+          <h4>Client:</h4>
+          <p>I also coded an user client that uses this backend:</p>
+          <ul>
+            <li>with REACT: https://github.com/hannesdonel/MMM-client</li>
+            <li>
+              with Angular: https://github.com/hannesdonel/MMM-client-Angular
+            </li>
+          </ul>
+          <h2>Technologies</h2>
+          <h4>Codebase:</h4>
+          <ul>
+            <li>node.js</li>
+            <li>nodemon</li>
+            <li>express</li>
+            <li>mongoose</li>
+            <li>dotenv</li>
+            <li>bcrypt</li>
+            <li>cors</li>
+            <li>express-validator</li>
+            <li>jsonwebtoken</li>
+            <li>passport</li>
+            <li>xss</li>
+          </ul>
+          <h4>External tools:</h4>
+          <ul>
+            <li>The database is built by myself using <b>MongoDB</b></li>
+            <li>I used <b>Postman</b> for endpoint testing</li>
+            <li>This code is hostet on <b>Heroku</b> to be always available</li>
+          </ul>
+          <h2>Functionality</h2>
+          <h4>Movies:</h4>
+          <ul>
+            <li>Return a list of all movies to the user</li>
+            <li>Return a list of movies by genre or/and actor</li>
+            <li>
+              Return data (description, genre, director, image URL, whether it’s
+              featured or not) about a single movie by title to the user
+            </li>
+          </ul>
+          <h4>Genres:</h4>
+          <ul>
+            <li>Return a list of all genres</li>
+            <li>
+              Return data about a genre (description) by name/title (e.g.,
+              “Thriller”)
+            </li>
+          </ul>
+          <h4>Directors:</h4>
+          <ul>
+            <li>Return a list of all directors</li>
+            <li>
+              Return data about a director (bio, birth year, death year) by name
+            </li>
+          </ul>
+          <h4>User:</h4>
+          <ul>
+            <li>Allow new users to register</li>
+            <li>Allow existing users to deregister</li>
+            <li>Get information about a user by name</li>
+            <li>
+              Allow users to update their user info (username, password, email,
+              date of birth)
+            </li>
+            <li>Allow users to add a movie to their list of favorites</li>
+            <li>Allow users to remove a movie from their list of favorites</li>
+          </ul>
+        </article>
+      </section>
+    </div>
 
-    <h1 class="page-title">Home</h1>
+    <nav>
+      <h2><a href="index.html">Home</a></h2>
+      <h2><a href="/documentation">Endpoints</a></h2>
+      <h3>Modules</h3>
+      <ul>
+        <li><a href="module-Authentication.html">Authentication</a></li>
+        <li><a href="module-DirectorsRouter.html">DirectorsRouter</a></li>
+        <li><a href="module-GenresRouter.html">GenresRouter</a></li>
+        <li><a href="module-MoviesRouter.html">MoviesRouter</a></li>
+        <li><a href="module-Routing.html">Routing</a></li>
+        <li><a href="module-Schemata.html">Schemata</a></li>
+        <li><a href="module-UsersRouter.html">UsersRouter</a></li>
+      </ul>
+      <h3>Global</h3>
+      <ul>
+        <li><a href="global.html#DirectorsServices">DirectorsServices</a></li>
+        <li><a href="global.html#GenresServices">GenresServices</a></li>
+        <li><a href="global.html#MoviesServices">MoviesServices</a></li>
+        <li><a href="global.html#UsersServices">UsersServices</a></li>
+      </ul>
+    </nav>
 
-    
+    <br class="clear" />
 
+    <footer>
+      Documentation generated by
+      <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Nov 23
+      2021 13:34:39 GMT+0100 (Mitteleuropäische Normalzeit)
+    </footer>
 
-
-    
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-    <section>
-        <article><h1>MORE MOVIE METADATA - backend</h1>
-<p>This is MORE MOVIE METADATA backend. This <b>RESTful API</b> provides all necessary endpoints to access the movie, genre, director and user collections stored within a <b>MongoDB</b> database which I also crafted by myself.</p>
-<h4>Security:</h4>
-<p>It's fully protected through an authorization and authentication process, you can sign up for your own user account to retrieve full access and save favorite movies. Furthermore it meets a high level data security regulation including data validation.</p>
-<h4>Endpoints:</h4>
-<p>Endpoints can be accessed via standard http methods like GET, POST, PUT and DELETE.
-You'll find the detailed documentation of those endpoints here: https://more-movie-metadata.herokuapp.com/documentation</p>
-<h4>Client:</h4>
-<p>I also coded an user client that uses this backend:</p>
-<ul>
-<li>with REACT: https://github.com/hannesdonel/MMM-client</li>
-<li>with Angular: https://github.com/hannesdonel/MMM-client-Angular</li>
-</ul>
-<h2>Technologies</h2>
-<h4>Codebase:</h4>
-<ul>
-<li>node.js</li>
-<li>nodemon</li>
-<li>express</li>
-<li>mongoose</li>
-<li>dotenv</li>
-<li>bcrypt</li>
-<li>cors</li>
-<li>express-validator</li>
-<li>jsonwebtoken</li>
-<li>passport</li>
-<li>xss</li>
-</ul>
-<h4>External tools:</h4>
-<ul>
-<li>The database is built by myself using <b>MongoDB</b></li>
-<li>I used <b>Postman</b> for endpoint testing</li>
-<li>This code is hostet on <b>Heroku</b> to be always available</li>
-</ul>
-<h2>Functionality</h2>
-<h4>Movies:</h4>
-<ul>
-<li>Return a list of all movies to the user</li>
-<li>Return a list of movies by genre or/and actor</li>
-<li>Return data (description, genre, director, image URL, whether it’s featured or not) about a
-single movie by title to the user</li>
-</ul>
-<h4>Genres:</h4>
-<ul>
-<li>Return a list of all genres</li>
-<li>Return data about a genre (description) by name/title (e.g., “Thriller”)</li>
-</ul>
-<h4>Directors:</h4>
-<ul>
-<li>Return a list of all directors</li>
-<li>Return data about a director (bio, birth year, death year) by name</li>
-</ul>
-<h4>User:</h4>
-<ul>
-<li>Allow new users to register</li>
-<li>Allow existing users to deregister</li>
-<li>Get information about a user by name</li>
-<li>Allow users to update their user info (username, password, email, date of birth)</li>
-<li>Allow users to add a movie to their list of favorites</li>
-<li>Allow users to remove a movie from their list of favorites</li>
-</ul></article>
-    </section>
-
-
-
-
-
-
-</div>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Authentication.html">Authentication</a></li><li><a href="module-DirectorsRouter.html">DirectorsRouter</a></li><li><a href="module-GenresRouter.html">GenresRouter</a></li><li><a href="module-MoviesRouter.html">MoviesRouter</a></li><li><a href="module-Routing.html">Routing</a></li><li><a href="module-Schemata.html">Schemata</a></li><li><a href="module-UsersRouter.html">UsersRouter</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DirectorsServices">DirectorsServices</a></li><li><a href="global.html#GenresServices">GenresServices</a></li><li><a href="global.html#MoviesServices">MoviesServices</a></li><li><a href="global.html#UsersServices">UsersServices</a></li></ul>
-</nav>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Nov 18 2021 16:47:03 GMT+0100 (Mitteleuropäische Normalzeit)
-</footer>
-
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
-</body>
+    <script>
+      prettyPrint();
+    </script>
+    <script src="scripts/linenumber.js"></script>
+  </body>
 </html>

@@ -53,11 +53,16 @@ app.get('/', (req, res) => {
 
 /** Make /public directory available */
 app.use('/public', express.static('public'));
+/** Make /doc directory available */
+app.use('/doc', express.static('doc'));
 
 /** Routing for documentation */
 app.get('/documentation', (req, res) => {
   res.status(200).sendFile(`${__dirname}/public/documentation.html`);
 });
+app.get('/doc', (req, res) => {
+  res.status(200).sendFile(`${__dirname}/doc/index.html`);
+})
 
 /** MOVIES */
 app.use('/movies', MoviesRouter);
