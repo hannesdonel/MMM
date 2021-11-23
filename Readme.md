@@ -11,7 +11,7 @@ You'll find the detailed documentation of those endpoints here: https://more-mov
 
 #### Client:
 I also coded an user client that uses this backend:
-- with REACT: https://github.com/hannesdonel/MMM-client
+- with REACT: https://github.com/hannesdonel/MMM-client-React
 - with Angular: https://github.com/hannesdonel/MMM-client-Angular
 
 
@@ -59,3 +59,8 @@ I also coded an user client that uses this backend:
 - Allow users to update their user info (username, password, email, date of birth)
 - Allow users to add a movie to their list of favorites
 - Allow users to remove a movie from their list of favorites
+
+
+## Documentation
+
+Further documentation of the codebase is located <a href="https://more-movie-metadata.herokuapp.com/doc/">here</a>.
