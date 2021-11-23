@@ -1,7 +1,5 @@
-const xss = require('xss');
-const Models = require('../models');
-
-const { Movies } = Models;
+import xss from 'xss';
+import { Movies } from '../models.js';
 
 /** These services are browsing the database for a specific request on movies and return
  * one movie or an array of movies. A movie is an object:
@@ -80,5 +78,4 @@ const MoviesServices = {
     }
   },
 };
-
-module.exports = MoviesServices;
+export default MoviesServices;

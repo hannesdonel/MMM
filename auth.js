@@ -1,10 +1,8 @@
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
-require('./passport');
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from './config.js';
 
-const config = require('./config');
-
-const { JWT_SECRET } = config;
+import './passport.js';
 
 /** @module Authentication */
 
@@ -16,7 +14,7 @@ const generateJWTToken = (user) => jwt.sign(user, JWT_SECRET, {
 });
 
 /** Definition and functionality of /login endpoint. */
-module.exports = (router) => {
+const Login = (router) => {
   router.post('/login', (req, res) => {
     passport.authenticate('local', { session: false }, (error1, user) => {
       if (error1 || !user) {
@@ -35,3 +33,5 @@ module.exports = (router) => {
     })(req, res);
   });
 };
+
+export default Login;

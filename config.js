@@ -4,4 +4,6 @@ const config = {
   PORT: process.env.PORT || 8080,
 };
 
-module.exports = config;
+const { JWT_SECRET, CONNECTION_URI, PORT } = config;
+
+export { JWT_SECRET, CONNECTION_URI, PORT };

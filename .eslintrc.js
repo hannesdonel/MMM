@@ -16,5 +16,6 @@ module.exports = {
     'no-underscore-dangle': 'off',
     /* eslint-disable-next-line */
     'eqeqeq': 'off',
+    'import/extensions': 'off',
   },
 };

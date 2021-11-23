@@ -1,8 +1,8 @@
-const express = require('express');
-const passport = require('passport');
+import express from 'express';
+import passport from 'passport';
+import MoviesServices from './movies-services.js';
 
 const MoviesRouter = express.Router();
-const MoviesServices = require('./movies-services');
 
 /**
  * These routes are connecting an API call with the matching CRUD action on the database
@@ -42,4 +42,4 @@ MoviesRouter
     }
   });
 
-module.exports = MoviesRouter;
+export default MoviesRouter;

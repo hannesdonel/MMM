@@ -1,7 +1,5 @@
-const xss = require('xss');
-const Models = require('../models');
-
-const { Directors } = Models;
+import xss from 'xss';
+import { Directors } from '../models.js';
 
 /**
  * These services are browsing the database for a specific request on directors and return
@@ -35,4 +33,4 @@ const DirectorsServices = {
   },
 };
 
-module.exports = DirectorsServices;
+export default DirectorsServices;

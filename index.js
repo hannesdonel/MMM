@@ -1,12 +1,24 @@
-require('dotenv').config();
+import 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import mongoose from 'mongoose';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
-const express = require('express');
-const cors = require('cors');
+import { CONNECTION_URI, PORT } from './config.js';
+import './passport.js';
+import MoviesRouter from './movies/movies-router.js';
+import GenresRouter from './genres/genres-router.js';
+import DirectorsRouter from './directors/directors-router.js';
+import UsersRouter from './users/users-router.js';
 
 const app = express();
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://more-movie-metadata.netlify.app', 'https://hannesdonel.github.io'];
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+const allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://more-movie-metadata.netlify.app', 'https://hannesdonel.github.io'];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
@@ -16,22 +28,17 @@ app.use(cors({
     }
     return callback(null, true);
   },
-})); const morgan = require('morgan');
-const mongoose = require('mongoose');
+}));
 
 app.use(morgan('common'));
 
-const config = require('./config');
-
-const { CONNECTION_URI } = config;
+// Connect to database
 mongoose.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-const MoviesRouter = require('./movies/movies-router');
-const GenresRouter = require('./genres/genres-router');
-const DirectorsRouter = require('./directors/directors-router');
-const UsersRouter = require('./users/users-router');
-require('./passport');
+
 /* eslint-disable-next-line */
-const auth = require('./auth')(app);
+import Login from './auth.js';
+/* eslint-disable-next-line */
+const auth = Login(app);
 
 /** @module Routing */
 
@@ -72,7 +79,6 @@ app.use((err, req, res, next) => {
 });
 
 /** Definition of development server. */
-const { PORT } = config;
 app.listen(PORT, '0.0.0.0', () => {
   /* eslint-disable-next-line */
   console.log(`Server is listening on port ${PORT || 8080}.`);

@@ -1,8 +1,8 @@
-const express = require('express');
-const passport = require('passport');
+import express from 'express';
+import passport from 'passport';
+import DirectorsServices from './directors-services.js';
 
 const DirectorsRouter = express.Router();
-const DirectorsServices = require('./directors-services');
 
 /**
  * These routes are connecting an API call with the matching CRUD action on the database
@@ -40,4 +40,4 @@ DirectorsRouter
     }
   });
 
-module.exports = DirectorsRouter;
+export default DirectorsRouter;

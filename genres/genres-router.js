@@ -1,8 +1,8 @@
-const express = require('express');
-const passport = require('passport');
+import express from 'express';
+import passport from 'passport';
+import GenresServices from './genres-services.js';
 
 const GenresRouter = express.Router();
-const GenresServices = require('./genres-services');
 
 /**
  * These routes are connecting an API call with the matching CRUD action on the database
@@ -40,4 +40,4 @@ GenresRouter
     }
   });
 
-module.exports = GenresRouter;
+export default GenresRouter;

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const xss = require('xss');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import xss from 'xss';
 
 /**
  * Definition of schemata for communication with database.
@@ -61,7 +61,6 @@ const Genres = mongoose.model('Genre', genreSchema);
 const Directors = mongoose.model('Director', directorSchema);
 const Users = mongoose.model('User', userSchema);
 
-module.exports.Movies = Movies;
-module.exports.Genres = Genres;
-module.exports.Directors = Directors;
-module.exports.Users = Users;
+export {
+  Movies, Genres, Directors, Users,
+};

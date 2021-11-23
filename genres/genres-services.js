@@ -1,7 +1,5 @@
-const xss = require('xss');
-const Models = require('../models');
-
-const { Genres } = Models;
+import xss from 'xss';
+import { Genres } from '../models.js';
 
 /** These services are browsing the database for a specific request on genres and return
  * one genre or an array of genres. A genre is an object:
@@ -33,4 +31,4 @@ const GenresServices = {
   },
 };
 
-module.exports = GenresServices;
+export default GenresServices;

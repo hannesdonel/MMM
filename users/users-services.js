@@ -1,8 +1,5 @@
-const xss = require('xss');
-
-const Models = require('../models');
-
-const { Movies, Users } = Models;
+import xss from 'xss';
+import { Movies, Users } from '../models.js';
 
 /**
  * These services are browsing the database for a specific request on users.
@@ -153,4 +150,4 @@ const UsersServices = {
   },
 };
 
-module.exports = UsersServices;
+export default UsersServices;

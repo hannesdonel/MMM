@@ -1,9 +1,9 @@
-const express = require('express');
-const { check, validationResult } = require('express-validator');
-const passport = require('passport');
+import express from 'express';
+import { check, validationResult } from 'express-validator';
+import passport from 'passport';
+import UsersServices from './users-services.js';
 
 const UsersRouter = express.Router();
-const UsersServices = require('./users-services');
 
 /**
  * These routes are connecting an API call with the matching CRUD action on the database
@@ -118,4 +118,4 @@ UsersRouter
     }
   });
 
-module.exports = UsersRouter;
+export default UsersRouter;
