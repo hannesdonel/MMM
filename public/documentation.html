@@ -32,6 +32,37 @@
         </thead>
         <tbody>
           <tr>
+            <td>Login</td>
+            <td>/login</td>
+            <td>POST</td>
+            <td>
+              A JSON object holding data about user:
+              <br /><br />
+              {<br />
+              "user_name": STRING,<br />
+              "password": STRING<br />
+              }
+            </td>
+            <td>
+              A JSON object holding user data including token: <br /><br />
+              {<br />
+              "user": {<br />
+              <span class="object-indentation"
+                >"favorites": [ STRING, STRING, ... ],</span
+              ><br />
+              <span class="object-indentation">"_id": STRING,</span><br />
+              <span class="object-indentation">"user_name": STRING,</span><br />
+              <span class="object-indentation">"password": STRING,</span><br />
+              <span class="object-indentation">"email": STRING,</span><br />
+              <span class="object-indentation">"birth_date": STRING,</span
+              ><br />
+              },<br />
+              "token": STRING<br />
+              }
+            </td>
+          </tr>
+
+          <tr>
             <td>Get list of all movies</td>
             <td>/movies</td>
             <td>GET</td>
@@ -39,25 +70,25 @@
             <td>
               A JSON object holding all data about all movies: <br /><br />
               {<br />
-              "_id" : String,<br />
-              "title": String,<br />
-              "descripction": String<br />
+              "_id" : STRING,<br />
+              "title": STRING,<br />
+              "descripction": STRING<br />
               "director": [{<br />
-              <span class="object-indentation">"name" : String,</span><br />
-              <span class="object-indentation">"bio" : String,</span><br />
-              <span class="object-indentation">"birth_year" : "String",</span
+              <span class="object-indentation">"name" : STRING,</span><br />
+              <span class="object-indentation">"bio" : STRING,</span><br />
+              <span class="object-indentation">"birth_year" : STRING,</span
               ><br />
-              <span class="object-indentation">"death_year" : "String"</span
+              <span class="object-indentation">"death_year" : STRING</span
               ><br />
               }, { Director 2... }],<br />
-              "actors": [ String, String, String... ],<br />
+              "actors": [ STRING, STRING, STRING... ],<br />
               "genre": [{<br />
-              <span class="object-indentation">"name": String,</span><br />
-              <span class="object-indentation">"description": String</span
+              <span class="object-indentation">"name": STRING,</span><br />
+              <span class="object-indentation">"description": STRING</span
               ><br />
               }, { Genre 2... }],<br />
-              "imageUrl": "www.link.to/movie/coverartwork"<br />
-              "featured": false<br />
+              "imageUrl": STRING<br />
+              "featured": BOOLEAN<br />
               }
             </td>
           </tr>
@@ -67,7 +98,7 @@
             <td>GET</td>
             <td>The search query should contain "genreID" or/and "actor".</td>
             <td>
-              A JSON object holding all movies assigned to a specific genre
+              An array of objects of all movies assigned to a specific genre
               or/and actor.
             </td>
           </tr>
@@ -84,7 +115,7 @@
             <td>GET</td>
             <td>-</td>
             <td>
-              A JSON object holding data about all genres:
+              An array of JSON objects holding data about all genres:
               <br /><br />
               {<br />
               "name": "Sci-Fi",<br />
@@ -98,7 +129,9 @@
             <td>/genre/:name</td>
             <td>GET</td>
             <td>Specify genre name in URL. The query is case sensitive!</td>
-            <td>A JSON object holding data about a genre by name.</td>
+            <td>
+              An array with one JSON object holding data about a genre by name.
+            </td>
           </tr>
           <tr>
             <td>Return data about all directors.</td>
@@ -106,14 +139,13 @@
             <td>GET</td>
             <td>-</td>
             <td>
-              A JSON object holding data about all directors:
+              An array of JSON objects holding data about all directors:
               <br /><br />
               {<br />
-              "name": "Al Capone",<br />
-              "bio": "Al Capone was the most funniest movie director ever.
-              Especially when it comes to Mafia movies.",<br />
-              "birth_year": "1927",<br />
-              "death_year": "2027"<br />
+              "name": STRING,<br />
+              "bio": STRING,<br />
+              "birth_year": STRING,<br />
+              "death_year": STRING<br />
               }
             </td>
           </tr>
@@ -122,7 +154,7 @@
             <td>/directors/:name</td>
             <td>GET</td>
             <td>Specify director name in URL. The query is case sensitive!</td>
-            <td>A JSON object holding data about a director.</td>
+            <td>An array of one JSON object holding data about a director.</td>
           </tr>
           <tr>
             <td>Allow new users to register.</td>
@@ -136,7 +168,7 @@
               "user_name" : STRING,<br />
               "password" : STRING,<br />
               "email" : STRING,<br />
-              "birth_date" : STRING (YYYY-MM-DD)<br />
+              "birth_date" : STRING<br />
               }
             </td>
             <td>
@@ -158,14 +190,30 @@
             </td>
           </tr>
           <tr>
-            <td>Allow users to see their information by name.</td>
+            <td>Allow users to see their information by ID.</td>
             <td>/users/:id</td>
             <td>GET</td>
             <td>
               The name of the user to be shown should be put after /users/ in
               the URL.
             </td>
-            <td>A JSON object holding all data about a specific user.</td>
+            <td>
+              A JSON object holding all data about a specific user:<br /><br />
+              {<br />
+              "user": {<br />
+              <span class="object-indentation"
+                >"favorites": [ STRING, STRING, ... ],</span
+              ><br />
+              <span class="object-indentation">"_id": STRING,</span><br />
+              <span class="object-indentation">"user_name": STRING,</span><br />
+              <span class="object-indentation">"password": STRING,</span><br />
+              <span class="object-indentation">"email": STRING,</span><br />
+              <span class="object-indentation">"birth_date": STRING,</span
+              ><br />
+              },<br />
+              "token": STRING<br />
+              }
+            </td>
           </tr>
           <tr>
             <td>Allow users to update their user data by ID.</td>
